@@ -318,4 +318,4 @@ PRs are welcome. Open an issue first for anything significant.
 
 ## License
 
-MIT
+[MIT](LICENSE)
