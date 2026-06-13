@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: yt-download-api
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    envVars:
+      - key: API_KEY
+        generateValue: true
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: yt-redis
+          property: connectionString
+      - key: PROXY_URL
+        sync: false
+
+  - type: redis
+    name: yt-redis
+    plan: free
+    ipAllowList: []
