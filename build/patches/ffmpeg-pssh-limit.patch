@@ -1,0 +1,31 @@
+From: yt-download-api maintainers
+Subject: [PATCH] avformat/mov: bound repeated PSSH metadata
+
+Local hardening for CVE-2026-107678. The companion upstream patch frees
+encryption-init lists iteratively. Limit records per input to also bound
+the MOV demuxer's quadratic append path, without adding an unreleased API.
+YouTube's ordinary clear streams do not need large DRM metadata lists.
+
+--- a/libavformat/isom.h
++++ b/libavformat/isom.h
+@@ -367,6 +367,7 @@
+     int has_looked_for_mfra;
+     int use_tfdt;
+     MOVFragmentIndex frag_index;
++    unsigned int pssh_box_count;
+     int atom_depth;
+     unsigned int aax_mode;  ///< 'aax' file has been detected
+     uint8_t file_key[20];
+--- a/libavformat/mov.c
++++ b/libavformat/mov.c
+@@ -8273,6 +8273,10 @@
+     int ret = 0;
+     unsigned int version, kid_count, extra_data_size, alloc_size = 0;
+ 
++    if (++c->pssh_box_count > 64) {
++        av_log(c->fc, AV_LOG_ERROR, "Too many PSSH metadata records\n");
++        return AVERROR_INVALIDDATA;
++    }
+     if (c->fc->nb_streams < 1)
+         return 0;
+     st = c->fc->streams[c->fc->nb_streams-1];

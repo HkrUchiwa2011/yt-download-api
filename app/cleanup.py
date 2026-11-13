@@ -1,28 +1,31 @@
-import os
-import time
 import logging
+import time
+
 from app.config import get_settings
+from app.jobs import ACTIVE, get_job
+from app.storage import canonical_job_id, remove_job_files
 
 logger = logging.getLogger(__name__)
-settings = get_settings()
 
 
 def cleanup_old_files():
-    if not os.path.exists(settings.TMP_DIR):
+    settings = get_settings()
+    if not settings.TMP_DIR.exists():
         return
-
-    now = time.time()
-    ttl = settings.FILE_TTL_MINUTES * 60
-    removed = 0
-
-    for filename in os.listdir(settings.TMP_DIR):
-        filepath = os.path.join(settings.TMP_DIR, filename)
+    for directory in settings.TMP_DIR.iterdir():
         try:
-            if os.path.isfile(filepath) and (now - os.path.getmtime(filepath)) > ttl:
-                os.remove(filepath)
-                removed += 1
-        except Exception as e:
-            logger.warning(f"Cleanup failed for {filepath}: {e}")
-
-    if removed:
-        logger.info(f"Cleanup: removed {removed} expired file(s)")
+            canonical_job_id(directory.name)
+            if directory.is_symlink() or not directory.is_dir():
+                continue
+            job = get_job(directory.name)
+            if job and job["status"] in ACTIVE:
+                continue
+            expiry = (
+                job["expires_at"]
+                if job
+                else directory.stat().st_mtime + settings.FILE_TTL_MINUTES * 60
+            )
+            if time.time() >= expiry:
+                remove_job_files(directory.name)
+        except (OSError, ValueError):
+            logger.warning("Unable to clean a download directory")

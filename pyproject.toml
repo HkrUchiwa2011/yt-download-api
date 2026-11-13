@@ -1,0 +1,31 @@
+[project]
+name = "yt-download-api"
+version = "1.1.0"
+description = "Self-hosted YouTube download API with Redis-backed workers"
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi>=0.162.6,<0.163", "uvicorn[standard]>=0.54.0,<0.55",
+  "pydantic>=2.14.3,<3", "pydantic-settings>=2.16.3,<3",
+  "redis>=8.1.0,<9", "httpx>=0.28.1,<0.29", "rq>=3.0.0,<4",
+  "yt-dlp[default,curl-cffi]>=2026.10.26", "deno>=2.9.8,<3",
+]
+
+[dependency-groups]
+dev = ["pytest>=9.2,<10", "pytest-httpx>=0.36.2,<0.37", "ruff>=0.17.5,<0.18", "pip-audit>=2.10.1,<3"]
+
+[tool.uv]
+package = false
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I", "B", "S"]
+ignore = ["S101"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S105", "S106", "S603", "S607"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

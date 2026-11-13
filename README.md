@@ -1,321 +1,165 @@
 # yt-download-api
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
+[English](README.md) | [Français](README.fr.md)
+
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 ![Python](https://img.shields.io/badge/python-3.11+-blue.svg)
 
-A self-hostable REST API to download YouTube videos. Built with FastAPI and yt-dlp.
+A self-hosted YouTube download API built with FastAPI, yt-dlp, FFmpeg and Redis.
+Submit a video, poll its status and retrieve the file. The HTTP endpoints remain compatible with the Python [yt-download-client](https://github.com/HkrUchiwa2011/yt-download-client).
 
-Integrate it into your Discord bots, Telegram bots, automation scripts, or any HTTP client. Submit a job, poll for the status, grab the file — that's it.
-
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/HkrUchiwa2011/yt-download-api)
-
----
-
-## Features
-
-- Download videos as `mp4`, `mp3`, or `webm`
-- Quality selection: `best`, `1080p`, `720p`, `480p`, `360p`, `audio_only`
-- `/info` endpoint — fetch title, duration, and available formats before downloading
-- Webhook support — get notified when a job finishes instead of polling
-- Rate limiting per IP and per API key
-- Concurrent download cap to keep the server stable
-- Auto-cleanup of downloaded files after 30 minutes
-- Redis-backed job state
-
-## Endpoints
-
-| Method | Route | Description |
-|--------|-------|-------------|
-| `GET` | `/health` | Service health and active download count |
-| `GET` | `/info?url=...` | Video metadata and available formats |
-| `POST` | `/download` | Submit a download job |
-| `GET` | `/status/{job_id}` | Poll job status |
-| `GET` | `/file/{job_id}` | Download the output file |
-| `DELETE` | `/file/{job_id}` | Delete a file manually |
-
-All endpoints except `/health` require the `X-API-Key` header.
-
-Interactive docs available at `/docs`.
-
----
-
-## Quick start
-
-### Requirements
-
-- Docker + Docker Compose
-- Or: Python 3.11+ and a running Redis instance
-
-### Run locally
+## Run with Docker Compose
 
 ```bash
 git clone https://github.com/HkrUchiwa2011/yt-download-api.git
 cd yt-download-api
 cp .env.example .env
+python -c 'import secrets; print(secrets.token_urlsafe(32))'
 ```
 
-Open `.env` and set a strong `API_KEY`. The other defaults work fine for local use.
+Put the generated secret in `.env` as `API_KEY`. The placeholder is rejected at startup. Then:
 
 ```bash
-docker compose up
+docker compose up --build -d
 ```
 
-The API will be available at `http://localhost:8000`.
+The supplied image builds a restricted FFmpeg 9.0.2 with targeted security
+patches and updates Python's embedded XML parser. Sources are pinned by hash;
+compiler stages are excluded from the runtime. See [native build details](build/README.md).
 
-<details>
-<summary>Docker Compose file</summary>
-
-```yaml
-services:
-  redis:
-    image: redis:7-alpine
-    ports: ["6379:6379"]
-
-  api:
-    build: .
-    ports: ["8000:8000"]
-    env_file: .env
-    depends_on: [redis]
-    volumes: [.:/app]
-```
-
-</details>
-
-### Without Docker
+The API listens at **http://127.0.0.1:8000**. Redis is internal to Compose; no Redis port is published. The API and worker share a download volume, and Redis uses persistent append-only storage. To run additional workers:
 
 ```bash
-pip install -r requirements.txt
-redis-server &
-uvicorn app.main:app --reload
+docker compose up -d --scale worker=3
 ```
 
----
+`MAX_CONCURRENT_DOWNLOADS` caps all admitted jobs, including jobs waiting for a worker, across API processes. A full service returns `503` and `Retry-After`; it does not create a job. Disk space is reserved conservatively for admitted downloads and their post-processing.
 
-## Deploy to Render
+Expose the API through an HTTPS reverse proxy when accessing it remotely. The supplied listener binds to localhost. Forwarded IP headers are deliberately ignored; clients behind a proxy share its IP budget. Adjust IP limits for that deployment rather than trusting arbitrary forwarded headers.
 
-Click the deploy button at the top, or:
+## Run without Docker
 
-1. Fork this repo
-2. Go to [render.com](https://render.com) → **New → Blueprint**
-3. Connect your fork
-4. Render reads `render.yaml` and creates the web service + Redis automatically
-5. Find your `API_KEY` under the service's **Environment** tab
-
----
-
-## Usage
-
-### Submit a download
+Install Python 3.11+, Redis, FFmpeg/ffprobe and [uv](https://docs.astral.sh/uv/). Python dependencies, including Deno and yt-dlp's EJS component, are locked in `uv.lock`. Outside Docker, use current security-patched native packages supplied by your environment; the container review does not certify a different installation.
 
 ```bash
-curl -X POST https://your-api.onrender.com/download \
-  -H "X-API-Key: YOUR_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{"url": "https://youtu.be/dQw4w9WgXcQ", "format": "mp4", "quality": "720p"}'
+uv sync --locked --no-dev
+uv run --locked --no-dev python -m app.server
 ```
 
-```json
-{
-  "job_id": "abc-123",
-  "status": "pending",
-  "message": "Job queued. Poll status at GET /status/abc-123"
-}
-```
-
-### Poll status
+The server starts the API and one supervised worker. For separate processes sharing the **same filesystem**, set `EMBEDDED_WORKERS=0` and run:
 
 ```bash
-curl https://your-api.onrender.com/status/abc-123 \
-  -H "X-API-Key: YOUR_KEY"
+uv run --locked --no-dev python -m app.worker
+uv run --locked --no-dev python -m app.server
 ```
 
-Status flow: `pending` → `started` → `progress` → `post_processing` → `success` / `failure`
+Alternatively, `pip install --require-hashes -r requirements.txt` installs the locked runtime dependencies. `requirements.txt` is generated from `uv.lock`.
 
-### Download the file
+## HTTP API
+
+All routes except `/health` require `X-API-Key`. Missing or incorrect keys return `401`.
+
+| Method | Route | Behavior |
+|---|---|---|
+| GET | `/health` | Checks Redis and registered workers; returns 503 if unavailable |
+| GET | `/info?url=...` | Video metadata, with a bounded extraction process |
+| POST | `/download` | Durably queues a download and returns its UUID |
+| GET | `/status/{job_id}` | Job status; independent polling rate budget |
+| GET | `/file/{job_id}` | Retrieves a completed file without deleting it |
+| DELETE | `/file/{job_id}` | Deletes a completed file; active jobs return 409 |
+
+Supported formats: `mp4`, `mp3`, `webm`. Qualities: `best`, `1080p`, `720p`, `480p`, `360p`, `audio_only`. MP3 always selects audio streams; `audio_only` requires MP3. MP4 and WebM select streams compatible with the requested container. If compatible streams are unavailable, the job fails rather than silently returning another format.
+
+Video URLs must use HTTPS and a supported YouTube hostname with an 11-character video ID. Watch, short, embed and live URL forms are canonicalized to a single watch URL. Playlist and arbitrary query parameters are removed. Live downloads and videos with unknown duration are refused; `/info` can return `duration: null`.
 
 ```bash
-curl -L https://your-api.onrender.com/file/abc-123 \
-  -H "X-API-Key: YOUR_KEY" \
-  -o video.mp4
+curl --fail http://localhost:8000/download \
+  -H "X-API-Key: $API_KEY" -H 'Content-Type: application/json' \
+  -d '{"url":"https://youtu.be/aqz-KE-bpKQ","format":"mp4","quality":"720p"}'
 ```
 
-### Get video info
+The response contains `job_id`, `status: "pending"` and a message. Its initial state and queue entry are committed together. Status follows `pending` → `started` → `progress` → `post_processing` → `success` / `failure`.
 
-```bash
-curl "https://your-api.onrender.com/info?url=https://youtu.be/dQw4w9WgXcQ" \
-  -H "X-API-Key: YOUR_KEY"
-```
+Files remain available for `FILE_TTL_MINUTES` after completion, unless explicitly deleted. Expired files are cleaned every minute. A client that disconnects can fetch the file again. Single HTTP byte ranges and If-Range are supported for clients that implement resume; multiple ranges are refused. Pending jobs survive API/worker restarts while their queue TTL remains valid. Interrupted running jobs fail; partially downloaded bytes are not resumed automatically. RQ marks abandoned work during its periodic maintenance, so detection after an abrupt worker crash is not instantaneous.
 
-### With a webhook
-
-Pass a `webhook_url` in your download request and the API will POST the result to it when the job finishes — no polling needed.
-
-```json
-{
-  "url": "https://youtu.be/dQw4w9WgXcQ",
-  "format": "mp3",
-  "quality": "audio_only",
-  "webhook_url": "https://your-server.com/callback"
-}
-```
-
----
-
-## Use in your scripts
-
-The API is designed to be scripted. Here's the full flow in a few languages.
-
-### Python (recommended) — yt-download-client
-
-The easiest way to use this API from Python is the official client, published on PyPI.
-
-```bash
-pip install yt-download-client
-```
+## Python client
 
 ```python
 from yt_download_client import YTDownloadClient
 
-client = YTDownloadClient(
-    base_url="https://your-api.onrender.com",
-    api_key="YOUR_KEY",
-)
-
-path = client.download("https://youtu.be/dQw4w9WgXcQ", format="mp4", quality="720p")
-print(f"Saved to {path}")
+with YTDownloadClient("http://localhost:8000", api_key="YOUR_KEY") as client:
+    path = client.download("https://youtu.be/aqz-KE-bpKQ", format="mp4", quality="720p")
 ```
 
-It handles submission, polling, retries, and file download for you, with proper exceptions for rate limits, auth errors, and failed jobs. It also supports progress callbacks and step-by-step control (`submit`, `wait`, `fetch`) for more advanced use cases.
+The client handles polling and bounded retries for safe GET operations. Submission is never automatically retried, avoiding duplicate jobs.
 
-Full documentation: [yt-download-client on PyPI](https://pypi.org/project/yt-download-client/) — [source](https://github.com/HkrUchiwa2011/yt-download-client)
+## Webhooks
 
-### Shell (included)
+Webhooks are disabled by default. Configure both:
 
-A ready-to-use shell client is included. It handles submission, polling, and download in one command.
-
-```bash
-chmod +x yt-download.sh
-# Edit API_BASE and API_KEY at the top of the file
-./yt-download.sh https://youtu.be/dQw4w9WgXcQ
-./yt-download.sh https://youtu.be/dQw4w9WgXcQ mp3 audio_only
-./yt-download.sh https://youtu.be/dQw4w9WgXcQ mp4 720p
+```dotenv
+WEBHOOK_ALLOWED_HOSTS=["callbacks.example.org"]
+WEBHOOK_SECRET=YOUR_RANDOM_SECRET_OF_AT_LEAST_32_CHARACTERS
 ```
 
-Requires `curl` and `jq`.
+Submit `webhook_url: "https://callbacks.example.org/download-finished"`. Only exact allowed hosts on HTTPS port 443 are accepted. DNS must resolve exclusively to public IPs. Connections are pinned to a validated IP while verifying the original hostname's TLS certificate; redirects and environment proxies are disabled. Network errors and HTTP 5xx responses receive at most three delivery attempts. Delivery failure does not change the completed download's status.
 
-### Python (manual, raw HTTP)
-
-```python
-import time
-import httpx
-
-BASE = "https://your-api.onrender.com"
-HEADERS = {"X-API-Key": "YOUR_KEY"}
-
-def download(url: str, fmt: str = "mp4", quality: str = "best", output: str = "video.mp4"):
-    # Submit
-    r = httpx.post(f"{BASE}/download", headers=HEADERS, json={
-        "url": url, "format": fmt, "quality": quality
-    })
-    job_id = r.json()["job_id"]
-    print(f"Job: {job_id}")
-
-    # Poll
-    while True:
-        status = httpx.get(f"{BASE}/status/{job_id}", headers=HEADERS).json()
-        print(f"Status: {status['status']}")
-        if status["status"] == "success":
-            break
-        if status["status"] == "failure":
-            raise RuntimeError(status["error"])
-        time.sleep(5)
-
-    # Download
-    with httpx.stream("GET", f"{BASE}/file/{job_id}", headers=HEADERS) as r:
-        with open(output, "wb") as f:
-            for chunk in r.iter_bytes():
-                f.write(chunk)
-    print(f"Saved to {output}")
-
-download("https://youtu.be/dQw4w9WgXcQ", fmt="mp4", quality="720p")
-```
-
-### JavaScript / Node.js
-
-```js
-const BASE = "https://your-api.onrender.com";
-const HEADERS = { "X-API-Key": "YOUR_KEY", "Content-Type": "application/json" };
-
-async function download(url, format = "mp4", quality = "best") {
-  const { job_id } = await fetch(`${BASE}/download`, {
-    method: "POST",
-    headers: HEADERS,
-    body: JSON.stringify({ url, format, quality }),
-  }).then(r => r.json());
-
-  console.log("Job:", job_id);
-
-  while (true) {
-    const status = await fetch(`${BASE}/status/${job_id}`, { headers: HEADERS }).then(r => r.json());
-    console.log("Status:", status.status);
-    if (status.status === "success") break;
-    if (status.status === "failure") throw new Error(status.error);
-    await new Promise(r => setTimeout(r, 5000));
-  }
-
-  const res = await fetch(`${BASE}/file/${job_id}`, { headers: HEADERS });
-  const buffer = await res.arrayBuffer();
-  require("fs").writeFileSync("video.mp4", Buffer.from(buffer));
-  console.log("Saved to video.mp4");
-}
-
-download("https://youtu.be/dQw4w9WgXcQ", "mp4", "720p");
-```
-
----
+The callback contains `job_id`, `status` and public result/error fields. It contains no local filename or filesystem path. Verify the `X-YT-Signature` header as `sha256=` followed by HMAC-SHA256 of `timestamp + "." + raw_request_body`, using `WEBHOOK_SECRET`. The timestamp is in `X-YT-Timestamp`. Compare signatures in constant time and reject old timestamps and duplicate deliveries on the receiver.
 
 ## Configuration
 
-All settings are controlled via environment variables. See `.env.example` for the full list.
+All values are environment variables; see `.env.example`.
 
-> The values in `.env.example` are defaults for local development. Set real values when deploying.
+| Variable | Default | Meaning |
+|---|---|---|
+| `API_KEY` | required | Random secret, at least 32 characters |
+| `REDIS_URL` | `redis://localhost:6379/0` | Private Redis connection; use TLS for remote Redis |
+| `REDIS_NAMESPACE` | `yt` | Isolates jobs and rate counters for this deployment |
+| `TMP_DIR` | `/tmp/yt-downloads` | Dedicated directory owned by the service user |
+| `FILE_TTL_MINUTES` | 30 | File and terminal-state retention |
+| `MAX_DURATION_SECONDS` | 3600 | Maximum known video duration |
+| `MAX_FILESIZE_MB` | 500 | Maximum combined source size and final file size |
+| `MIN_FREE_SPACE_MB` | 256 | Storage safety margin |
+| `JOB_TIMEOUT_SECONDS` | 900 | Queue TTL and worker execution deadline, separately |
+| `SOCKET_TIMEOUT_SECONDS` | 15 | Network timeout; metadata deadline is three times this value |
+| `MAX_CONCURRENT_DOWNLOADS` | 5 | Global admitted download cap |
+| `MAX_CONCURRENT_INFO_REQUESTS` | 2 | Global metadata extraction cap |
+| `RATE_LIMIT_PER_MINUTE_IP` / `RATE_LIMIT_PER_MINUTE_KEY` | 10 / 30 | Work request budgets |
+| `STATUS_RATE_LIMIT_PER_MINUTE_IP` / `STATUS_RATE_LIMIT_PER_MINUTE_KEY` | 120 / 300 | Separate polling budgets |
+| `EMBEDDED_WORKERS` | 1 | Workers supervised by `app.server`; Compose overrides this to zero |
+| `ENABLE_DOCS` | false | Enables `/docs` and `/openapi.json` |
+| `PROXY_URL` | empty | Operator-configured yt-dlp proxy; keep credentials secret |
+| `WEBHOOK_ALLOWED_HOSTS` / `WEBHOOK_SECRET` | disabled | Callback allowlist and HMAC secret |
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `API_KEY` | `changeme` | Auth key — use a strong random value in production |
-| `REDIS_URL` | `redis://localhost:6379/0` | Redis connection string |
-| `MAX_DURATION_SECONDS` | `3600` | Max video duration (seconds) |
-| `MAX_FILESIZE_MB` | `500` | Max output file size (MB) |
-| `FILE_TTL_MINUTES` | `30` | How long files are kept before cleanup |
-| `RATE_LIMIT_PER_MINUTE_IP` | `10` | Max requests per minute per IP |
-| `RATE_LIMIT_PER_MINUTE_KEY` | `30` | Max requests per minute per API key |
-| `MAX_CONCURRENT_DOWNLOADS` | `5` | Max parallel downloads |
-| `PROXY_URL` | _(empty)_ | Optional residential proxy (SOCKS5h) |
+Redis and the shared download directory are trusted infrastructure. All callers using the single API key can access all jobs; this API does not provide user accounts or tenant isolation. Do not expose Redis or the download volume publicly. Host-level egress controls provide additional isolation for yt-dlp/FFmpeg and any operator-configured proxy. YouTube may still reject datacenter IPs even when extraction dependencies are current.
 
----
+## Render
 
-## If YouTube blocks downloads
+`render.yaml` uses a paid web service with a persistent disk and a paid Key Value service. It starts a supervised worker in the web service because separate Render services cannot share this disk. The blueprint defaults to 100 MB files and two admitted jobs. Check current Render availability, pricing and disk ownership before deploying. No deployment is performed by local tests. The original free blueprint did not provide durable file storage.
 
-Datacenter IPs (Render, AWS, GCP, etc.) are sometimes blocked by YouTube. If you see errors like `Sign in to confirm you're not a bot`, set a residential proxy:
+## Local checks
 
+Use an isolated test Redis; tests clean only their own namespaced data:
+
+```bash
+docker run --rm -p 127.0.0.1:16379:6379 redis:8-alpine
+# In a second terminal:
+uv sync --locked
+TEST_REDIS_URL=redis://127.0.0.1:16379/15 uv run --locked pytest
+uv run --locked ruff check app tests
+uv run --locked ruff format --check app tests
+uv run --locked pip-audit
 ```
-PROXY_URL=socks5h://user:pass@gate.provider.com:7000
-```
 
-This doesn't happen on all IPs — try without a proxy first.
-
----
-
-## Legal
-
-Download only content you have the right to download. This tool is intended for personal use. Downloading copyrighted material without permission may violate YouTube's Terms of Service and applicable law. The authors of this project are not responsible for how you use it.
-
----
-
-## Contributing
-
-PRs are welcome. Open an issue first for anything significant.
+Media integration tests additionally need FFmpeg/ffprobe. The Docker `tests`
+target also checks the patched production native libraries; see
+[native build details](build/README.md) for its commands. Without `TEST_REDIS_URL`,
+Redis integration tests are explicitly skipped; URL/security unit tests still run.
+See [SECURITY_REVIEW.md](SECURITY_REVIEW.md) for the local review scope and results,
+and [CHANGELOG.md](CHANGELOG.md) for migration notes.
 
 ## License
 
-[MIT](LICENSE)
+[MIT](LICENSE) for application code. Bundled FFmpeg, Expat and other components
+retain their own licenses; see [native build details](build/README.md).
+Download only content you have the right to download.

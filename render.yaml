@@ -3,19 +3,31 @@ services:
     name: yt-download-api
     runtime: docker
     dockerfilePath: ./Dockerfile
-    plan: free
+    plan: starter
+    healthCheckPath: /health
     envVars:
       - key: API_KEY
         generateValue: true
       - key: REDIS_URL
         fromService:
-          type: redis
+          type: keyvalue
           name: yt-redis
           property: connectionString
-      - key: PROXY_URL
-        sync: false
+      - key: EMBEDDED_WORKERS
+        value: "1"
+      - key: MAX_CONCURRENT_DOWNLOADS
+        value: "2"
+      - key: MAX_FILESIZE_MB
+        value: "100"
+      - key: TMP_DIR
+        value: /var/downloads/files
+    disk:
+      name: downloads
+      mountPath: /var/downloads
+      sizeGB: 5
 
-  - type: redis
+  - type: keyvalue
     name: yt-redis
-    plan: free
+    plan: starter
     ipAllowList: []
+    maxmemoryPolicy: noeviction
