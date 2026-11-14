@@ -3,8 +3,10 @@
 import copy
 import json
 
+import pytest
+
 from scripts.check_container_scan import assess
-from scripts.check_native_updates import changes, digest, release_changes
+from scripts.check_native_updates import changes, digest, fetch, release_changes
 
 
 def test_container_gate_keeps_reviewed_high_alerts_visible():
@@ -72,3 +74,11 @@ def test_native_release_watch_uses_the_configured_python_series():
     assert release_changes(baseline, ffmpeg, expat, index) == [
         "New python release: 3.13.18 -> 3.13.19"
     ]
+
+
+def test_native_feed_limits_are_configurable_and_enforced(httpx_mock):
+    url = "https://metadata.test/feed"
+    httpx_mock.add_response(url=url, content=b"12345", is_reusable=True)
+    assert fetch(url, max_bytes=5) == "12345"
+    with pytest.raises(ValueError, match="size limit"):
+        fetch(url, max_bytes=4)

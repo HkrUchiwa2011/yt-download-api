@@ -12,14 +12,14 @@ ROOT = Path(__file__).resolve().parents[1]
 TRACKER = "https://security-tracker.debian.org/tracker/data/json"
 
 
-def fetch(url):
+def fetch(url, *, max_bytes=2 * 1024**2):
     with httpx.Client(timeout=30, trust_env=False, follow_redirects=False) as client:
         with client.stream("GET", url) as response:
             response.raise_for_status()
             body = bytearray()
             for chunk in response.iter_bytes():
                 body.extend(chunk)
-                if len(body) > 80 * 1024**2:
+                if len(body) > max_bytes:
                     raise ValueError("Native update response exceeds the size limit")
     return body.decode()
 
@@ -77,7 +77,9 @@ def main():
         installed = re.search(r"^ARG " + argument + r"=([^\n]+)", dockerfile, re.M).group(1)
         if installed != reviewed["versions"][name]:
             problems.append(f"Native version review required: {name} {installed}")
-    data = json.loads(args.tracker.read_text() if args.tracker else fetch(TRACKER))
+    data = json.loads(
+        args.tracker.read_text() if args.tracker else fetch(TRACKER, max_bytes=256 * 1024**2)
+    )
     problems.extend(changes(data, reviewed))
     problems.extend(
         release_changes(
