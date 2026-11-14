@@ -16,6 +16,7 @@ ARG EXPAT_SHA256=c624ba2998fc65df1163a49641ff3f9ab73138b11641d92c86bee0fb01b1bc7
 ARG PYTHON_VERSION=3.13.18
 ARG PYTHON_SHA256=abb0102e6d4ae027509bcb82327d9dd85515b44a3ba8ad538cfc5e9847029f68
 COPY build/build-pyexpat.sh /build-pyexpat.sh
+COPY build/python-patches /python-patches
 RUN sh /build-pyexpat.sh
 
 FROM python:3.13-slim-trixie@sha256:e48f59cdba69a3cbd9ed2cf0f348d90d45a8d350d98134cf1070bc106ee9ed90 AS dependencies
@@ -29,6 +30,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY --from=media-build /opt/ffmpeg /opt/ffmpeg
 COPY --from=xml-build /opt/expat /opt/expat
 COPY --from=xml-build /native/ /usr/local/lib/python3.13/lib-dynload/
+COPY --from=xml-build /native-stdlib/ /usr/local/lib/python3.13/
 ENV PATH=/opt/ffmpeg/bin:$PATH
 RUN python -c "import pyexpat, xml.etree.ElementTree as E; assert pyexpat.EXPAT_VERSION == 'expat_2.10.0'; assert E.fromstring('<check/>').tag == 'check'"
 WORKDIR /app
@@ -45,9 +47,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends ffmpeg \
 COPY requirements-dev.txt ./
 RUN pip install --no-cache-dir --require-hashes -r requirements-dev.txt
 COPY --chown=10001:10001 tests ./tests
+COPY --chown=10001:10001 scripts ./scripts
+COPY --chown=10001:10001 security ./security
 COPY --from=media-build /native-tests /opt/native-tests
 ENV FIXTURE_FFMPEG=/usr/bin/ffmpeg
 ENV NATIVE_TEST_BINARY=/opt/native-tests/test-native
+ENV PATCHED_PYTHON_RUNTIME=1
 USER 10001:10001
 CMD ["python", "-m", "pytest", "-q", "-p", "no:cacheprovider"]
 

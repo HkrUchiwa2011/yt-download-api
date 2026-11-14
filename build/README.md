@@ -55,6 +55,15 @@ version and an ElementTree parse. Sources and licenses are recorded in
 `/opt/expat/share`. Changing the Python base version requires updating the
 matching source version/digest and extension destination together.
 
+The supplied Python 3.13.18 library also includes a targeted `http.cookiejar`
+backport for CVE-2026-124249. It checks cookie policy before an expired cookie
+may remove an existing one. The patch comes from CPython's 3.13 proposal
+https://github.com/python/cpython/pull/161581 at commit
+`76a88d2e4d8c86af4cd2fdde2284a0bc1c3e4f26`; it is not yet in the selected release.
+The modified library and patch provenance are shipped in the runtime; domain,
+path and blocked-domain regressions run in the Docker test target. Remove the
+backport once the selected upstream release includes the fix.
+
 Source-built components must be reviewed separately from Debian package scan
 results. A scanner failing to inventory a binary does not establish that it
 has no vulnerabilities. Upstream Expat also tracks undisclosed issues at

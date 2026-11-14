@@ -1,0 +1,251 @@
+{
+  "reviewed_on": "2026-11-14",
+  "scope": "Supplied non-root Compose runtime; see SECURITY_REVIEW.md",
+  "findings": [
+    {
+      "id": "CVE-2026-76642",
+      "package": "bsdutils",
+      "reason": "No privileged mount/login/nsenter operations; non-root, no capabilities"
+    },
+    {
+      "id": "CVE-2026-78408",
+      "package": "bsdutils",
+      "reason": "No privileged mount/login/nsenter operations; non-root, no capabilities"
+    },
+    {
+      "id": "CVE-2026-78409",
+      "package": "bsdutils",
+      "reason": "No privileged mount/login/nsenter operations; non-root, no capabilities"
+    },
+    {
+      "id": "CVE-2026-78410",
+      "package": "bsdutils",
+      "reason": "No privileged mount/login/nsenter operations; non-root, no capabilities"
+    },
+    {
+      "id": "CVE-2026-54369",
+      "package": "libacl1",
+      "reason": "No privileged ACL pathname operations"
+    },
+    {
+      "id": "CVE-2026-76642",
+      "package": "libblkid1",
+      "reason": "No privileged mount/login/nsenter operations; non-root, no capabilities"
+    },
+    {
+      "id": "CVE-2026-78408",
+      "package": "libblkid1",
+      "reason": "No privileged mount/login/nsenter operations; non-root, no capabilities"
+    },
+    {
+      "id": "CVE-2026-78409",
+      "package": "libblkid1",
+      "reason": "No privileged mount/login/nsenter operations; non-root, no capabilities"
+    },
+    {
+      "id": "CVE-2026-78410",
+      "package": "libblkid1",
+      "reason": "No privileged mount/login/nsenter operations; non-root, no capabilities"
+    },
+    {
+      "id": "CVE-2026-76642",
+      "package": "liblastlog2-2",
+      "reason": "No privileged mount/login/nsenter operations; non-root, no capabilities"
+    },
+    {
+      "id": "CVE-2026-78408",
+      "package": "liblastlog2-2",
+      "reason": "No privileged mount/login/nsenter operations; non-root, no capabilities"
+    },
+    {
+      "id": "CVE-2026-78409",
+      "package": "liblastlog2-2",
+      "reason": "No privileged mount/login/nsenter operations; non-root, no capabilities"
+    },
+    {
+      "id": "CVE-2026-78410",
+      "package": "liblastlog2-2",
+      "reason": "No privileged mount/login/nsenter operations; non-root, no capabilities"
+    },
+    {
+      "id": "CVE-2026-76642",
+      "package": "libmount1",
+      "reason": "No privileged mount/login/nsenter operations; non-root, no capabilities"
+    },
+    {
+      "id": "CVE-2026-78408",
+      "package": "libmount1",
+      "reason": "No privileged mount/login/nsenter operations; non-root, no capabilities"
+    },
+    {
+      "id": "CVE-2026-78409",
+      "package": "libmount1",
+      "reason": "No privileged mount/login/nsenter operations; non-root, no capabilities"
+    },
+    {
+      "id": "CVE-2026-78410",
+      "package": "libmount1",
+      "reason": "No privileged mount/login/nsenter operations; non-root, no capabilities"
+    },
+    {
+      "id": "CVE-2025-69720",
+      "package": "libncursesw6",
+      "reason": "infocmp is not invoked by the application"
+    },
+    {
+      "id": "CVE-2026-76642",
+      "package": "libsmartcols1",
+      "reason": "No privileged mount/login/nsenter operations; non-root, no capabilities"
+    },
+    {
+      "id": "CVE-2026-78408",
+      "package": "libsmartcols1",
+      "reason": "No privileged mount/login/nsenter operations; non-root, no capabilities"
+    },
+    {
+      "id": "CVE-2026-78409",
+      "package": "libsmartcols1",
+      "reason": "No privileged mount/login/nsenter operations; non-root, no capabilities"
+    },
+    {
+      "id": "CVE-2026-78410",
+      "package": "libsmartcols1",
+      "reason": "No privileged mount/login/nsenter operations; non-root, no capabilities"
+    },
+    {
+      "id": "CVE-2026-119373",
+      "package": "libsqlite3-0",
+      "reason": "No SQLite FTS5/session operations"
+    },
+    {
+      "id": "CVE-2026-119374",
+      "package": "libsqlite3-0",
+      "reason": "No SQLite FTS5/session operations"
+    },
+    {
+      "id": "CVE-2026-119379",
+      "package": "libsqlite3-0",
+      "reason": "No SQLite FTS5/session operations"
+    },
+    {
+      "id": "CVE-2026-16742",
+      "package": "libsystemd0",
+      "reason": "systemd-homed is absent"
+    },
+    {
+      "id": "CVE-2025-69720",
+      "package": "libtinfo6",
+      "reason": "infocmp is not invoked by the application"
+    },
+    {
+      "id": "CVE-2026-16742",
+      "package": "libudev1",
+      "reason": "systemd-homed is absent"
+    },
+    {
+      "id": "CVE-2026-76642",
+      "package": "libuuid1",
+      "reason": "No privileged mount/login/nsenter operations; non-root, no capabilities"
+    },
+    {
+      "id": "CVE-2026-78408",
+      "package": "libuuid1",
+      "reason": "No privileged mount/login/nsenter operations; non-root, no capabilities"
+    },
+    {
+      "id": "CVE-2026-78409",
+      "package": "libuuid1",
+      "reason": "No privileged mount/login/nsenter operations; non-root, no capabilities"
+    },
+    {
+      "id": "CVE-2026-78410",
+      "package": "libuuid1",
+      "reason": "No privileged mount/login/nsenter operations; non-root, no capabilities"
+    },
+    {
+      "id": "CVE-2026-76642",
+      "package": "login",
+      "reason": "No privileged mount/login/nsenter operations; non-root, no capabilities"
+    },
+    {
+      "id": "CVE-2026-78408",
+      "package": "login",
+      "reason": "No privileged mount/login/nsenter operations; non-root, no capabilities"
+    },
+    {
+      "id": "CVE-2026-78409",
+      "package": "login",
+      "reason": "No privileged mount/login/nsenter operations; non-root, no capabilities"
+    },
+    {
+      "id": "CVE-2026-78410",
+      "package": "login",
+      "reason": "No privileged mount/login/nsenter operations; non-root, no capabilities"
+    },
+    {
+      "id": "CVE-2026-76642",
+      "package": "mount",
+      "reason": "No privileged mount/login/nsenter operations; non-root, no capabilities"
+    },
+    {
+      "id": "CVE-2026-78408",
+      "package": "mount",
+      "reason": "No privileged mount/login/nsenter operations; non-root, no capabilities"
+    },
+    {
+      "id": "CVE-2026-78409",
+      "package": "mount",
+      "reason": "No privileged mount/login/nsenter operations; non-root, no capabilities"
+    },
+    {
+      "id": "CVE-2026-78410",
+      "package": "mount",
+      "reason": "No privileged mount/login/nsenter operations; non-root, no capabilities"
+    },
+    {
+      "id": "CVE-2025-69720",
+      "package": "ncurses-base",
+      "reason": "infocmp is not invoked by the application"
+    },
+    {
+      "id": "CVE-2025-69720",
+      "package": "ncurses-bin",
+      "reason": "infocmp is not invoked by the application"
+    },
+    {
+      "id": "CVE-2026-9538",
+      "package": "perl-base",
+      "reason": "No Perl archive processing"
+    },
+    {
+      "id": "CVE-2026-76642",
+      "package": "util-linux",
+      "reason": "No privileged mount/login/nsenter operations; non-root, no capabilities"
+    },
+    {
+      "id": "CVE-2026-78408",
+      "package": "util-linux",
+      "reason": "No privileged mount/login/nsenter operations; non-root, no capabilities"
+    },
+    {
+      "id": "CVE-2026-78409",
+      "package": "util-linux",
+      "reason": "No privileged mount/login/nsenter operations; non-root, no capabilities"
+    },
+    {
+      "id": "CVE-2026-78410",
+      "package": "util-linux",
+      "reason": "No privileged mount/login/nsenter operations; non-root, no capabilities"
+    }
+  ],
+  "configuration_sha256": {
+    "Dockerfile": "2a70e366eca39112b9f7ccc559c3c04fa5c3343c7069db586cd16646d16d21d7",
+    "build/build-ffmpeg.sh": "b6d63b2e90a035c96fd305df18114cfc84ccdd4a69e07122366ae96d51ea3a96",
+    "build/build-pyexpat.sh": "08c78740fa4367edcecb79cb8e664f8ad392eb3a9532396470e17acd90f28088",
+    "build/patches/ffmpeg-encryption-free.patch": "71603aadf07cff132779c8c07bc65452c609ff5e8714c44ff356427b2d4d26c7",
+    "build/patches/ffmpeg-hdr.patch": "d490131cb0d4605d7aca2938b5bf9a0685ca8c0bcbb7ef61ceeb123800c8be37",
+    "build/patches/ffmpeg-pssh-limit.patch": "870549dbf8965fec8b5d537ae48aaca1e11687806ecd52be1b51a65073cca0ac",
+    "build/python-patches/cookiejar-policy.patch": "22c7da666f08de081ef558c819c1d39531ab5cc8844fb21eca26c44b6301926f",
+    "compose.yaml": "44b7274d0e163b8ae05c942e2e42ab63c5aaa1ab90d3a9a5fc00cd65bd106611"
+  }
+}

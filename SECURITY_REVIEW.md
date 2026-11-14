@@ -1,5 +1,14 @@
 # Local security review — 2026-11-13
 
+## Follow-up — 2026-11-14
+
+- Python dependency audits still report no known vulnerabilities (69 API and 41 SDK records). FastAPI's corrective 0.162.7 update is locked and exported.
+- New CVE-2026-124249 affects Python's cookie expiration policy. The supplied Docker library now includes the upstream 3.13 backport, with cross-domain, path and blocklist regression coverage. It is not yet fixed in the selected base release.
+- New CVE-2026-115791 concerns archive-extraction command-line tools, which API routes do not invoke. CVE-2026-128241 affects `xmlwf`, excluded from our Expat build. A new unknown-severity dpkg source-package unpacking alert, CVE-2026-91094, does not concern runtime API operations or binary-package installation.
+- The refreshed runtime scan remains at zero critical, 47 high, 89 medium and 65 low pairs; unknown pairs increase to five. All alerts remain visible. Source-built components continue to receive separate review.
+- Updated verification: 91 tests in the Docker API/native suite, 76 non-media tests on Python 3.11 and 3.13 with Redis, and 45 SDK tests on both Python versions. Workflow lint, Dependabot schema validation and lock/export consistency checks pass.
+- Automated checks and the weekly source/advisory watch are described in [MAINTENANCE.md](MAINTENANCE.md). Reviewed configuration fingerprints prevent silently reusing the package assessment after changing native/container assumptions.
+
 ## Outcome
 
 Application fixes and local verification cover both the API and SDK. The supplied

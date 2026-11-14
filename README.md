@@ -158,6 +158,13 @@ Redis integration tests are explicitly skipped; URL/security unit tests still ru
 See [SECURITY_REVIEW.md](SECURITY_REVIEW.md) for the local review scope and results,
 and [CHANGELOG.md](CHANGELOG.md) for migration notes.
 
+## Maintenance
+
+GitHub Actions checks pull requests and runs a weekly audit. Dependabot proposes
+weekly updates; merging and releasing remain manual. See
+[MAINTENANCE.md](MAINTENANCE.md) for schedules, security review gates and native
+runtime update instructions.
+
 ## License
 
 [MIT](LICENSE) for application code. Bundled FFmpeg, Expat and other components

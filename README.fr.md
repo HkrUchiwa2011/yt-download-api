@@ -225,6 +225,13 @@ unitaires de validation et de sécurité restent exécutés. Consultez
 [SECURITY_REVIEW.md](SECURITY_REVIEW.md) pour le périmètre et les résultats de la
 revue locale, et [CHANGELOG.md](CHANGELOG.md) pour les notes de migration.
 
+## Maintenance
+
+GitHub Actions vérifie les pull requests et lance un audit hebdomadaire.
+Dependabot propose les mises à jour chaque semaine ; leur fusion et la publication
+des versions restent manuelles. Consultez [MAINTENANCE.md](MAINTENANCE.md), en anglais,
+pour les horaires, les contrôles de sécurité et la mise à jour des composants natifs.
+
 ## Licence
 
 Le code de l'application est sous [licence MIT](LICENSE). FFmpeg, Expat et les

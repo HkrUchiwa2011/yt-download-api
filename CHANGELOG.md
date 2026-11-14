@@ -2,6 +2,8 @@
 
 ## 1.1.0 — unreleased
 
+- GitHub Actions regression/security checks and weekly Dependabot proposals; explicit review gates for container/native advisories.
+- FastAPI 0.162.7 and a Python cookie-policy backport for CVE-2026-124249.
 - Redis-backed JSON job queue and supervised/separate workers; atomic global capacity and disk reservations.
 - Strict YouTube URLs, restricted signed DNS-pinned HTTPS webhooks and bounded request/metadata processing.
 - Exact UUID file lookup, private directories, symlink-safe streaming, repeat retrieval and TTL cleanup.
