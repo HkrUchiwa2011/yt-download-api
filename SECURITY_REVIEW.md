@@ -1,5 +1,17 @@
 # Local security review — 2026-11-13
 
+## Follow-up — 2026-11-18
+
+- Monday's scheduled native watch correctly required review of 87 new FFmpeg IDs and three Python 3.13 IDs. This follow-up assesses them individually; [the triage table](security/native-triage-2026-11-18.md) records affected components and treatment.
+- The supplied Docker Python library backports CVE-2026-103995's HTTP framing validation and its optional-whitespace compatibility follow-up. Invalid signed, prefixed or underscored chunk sizes and Content-Length values no longer determine response framing. Valid Content-Length whitespace remains supported on persistent connections.
+- FFmpeg 9.0.2-yt2 backports CVE-2026-125205 (AV1 OBU limits), CVE-2026-125223 (VP9 error cleanup), CVE-2026-125224 (one-time Vorbis parsing), CVE-2026-125225 (AAC bit-reader bounds) and CVE-2026-125253 (VP9 superframe arithmetic). Unused FLAC decoder/parser/demuxer components are removed for CVE-2026-125221. The supplied image remains focused on YouTube media, with WAV/PCM fixtures supported.
+- Other new FFmpeg entries concern omitted decoders, encoders, hardware acceleration or bitstream-filter operations; some also have fixes in 9.0.2. Ordinary MP3 decoding differs from the omitted `mp3adu` API path. Enabled H.264/HEVC stream-copy filters do not invoke `h264_metadata` SEI insertion. Re-enabling these components requires reassessment.
+- Python's IMAP STARTTLS issue (CVE-2026-115559) concerns an unused protocol. The Morsel attribute-injection issue (CVE-2026-16052) requires control of emitted response-cookie attributes; the application does not create such cookies from API input. These runtime versions are not certified fixed for unrelated uses.
+- Refreshed Python dependency audits report zero known advisories (69 API and 41 SDK records). No SDK code or dependency changes are required by this review. Installations outside the supplied image, including SDK interpreters, manage their own Python/native runtime updates.
+- The new runtime Trivy scan remains at **0 critical, 47 high, 92 medium, 65 low and 20 unknown package/advisory pairs**, with no Python-package advisories or secrets. All pairs match Wednesday's earlier scan. The existing high-package applicability assessment remains valid: build changes remove unused processing and backport fixes without enabling new protocols, tools or privileges. Source-built libraries and Python standard-library fixes still require the separate source review.
+- Container/native fingerprints are refreshed after this assessment. The gate now also rejects native patch additions and removals, so an unlisted patch cannot silently reuse an older review.
+- Verification: **120 Docker API/native/media tests**, **80 non-media API tests on each of Python 3.11 and 3.13**, and **45 SDK tests on each version** pass. AAC, AV1 and Vorbis native regressions fail against the previous supplied FFmpeg and pass against the patched library. The compiled inventory confirms FLAC, `mp3adu`, Blu-ray LPCM, JPEG-processing filters and hardware acceleration are absent. Lint, formatting, locked exports, the runtime scan gate and a fresh online native-source watch pass. The corrected runtime also extracts the existing Big Buck Bunny video's metadata (635 seconds, 57 advertised formats); this check downloads no media. No running service was replaced.
+
 ## Follow-up — 2026-11-14
 
 - Python dependency audits still report no known vulnerabilities (69 API and 41 SDK records). FastAPI's corrective 0.162.7 update is locked and exported.
@@ -115,4 +127,4 @@ scan results rather than certified harmless.
 Changing native build flags, enabling new input formats, adding browser-cookie
 imports/SQL/Perl processing, granting container privileges, or deploying with a
 different base image requires a new applicability review. No remote deployment
-or maintenance automation was performed as part of this review.
+was performed; automated checks are described in [MAINTENANCE.md](MAINTENANCE.md).

@@ -1,0 +1,54 @@
+From c90bbc2036bac67e95777638bdc86157a775858a Mon Sep 17 00:00:00 2001
+From: Michael Niedermayer <michael@niedermayer.cc>
+Date: Thu, 29 Oct 2026 00:00:18 +0100
+Subject: [PATCH] avcodec/bsf/av1_frame_merge: limit the number of OBUs
+ buffered per temporal unit
+
+Fixes: bdTY8jUuDHwF
+Fixes: AISLE-2026-0150-00241
+Fixes: OOM
+OOM Replicated through UnModified FFmpeg with /usr/bin/time (peak RSS)
+
+Found-by: Joshua Rogers <joshua.rogers@aisle.com>
+---
+ libavcodec/bsf/av1_frame_merge.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/libavcodec/bsf/av1_frame_merge.c b/libavcodec/bsf/av1_frame_merge.c
+index 12d53fba7ca..8340a94b7ca 100644
+--- a/libavcodec/bsf/av1_frame_merge.c
++++ b/libavcodec/bsf/av1_frame_merge.c
+@@ -23,6 +23,8 @@
+ #include "libavcodec/cbs.h"
+ #include "libavcodec/cbs_av1.h"
+ 
++#define MAX_TU_OBUS (1 << 16)
++
+ typedef struct AV1FMergeContext {
+     CodedBitstreamContext *input;
+     CodedBitstreamContext *output;
+@@ -67,6 +69,12 @@ static int av1_frame_merge_filter(AVBSFContext *bsf, AVPacket *out)
+         goto fail;
+     }
+ 
++    if (frag->nb_units > MAX_TU_OBUS) {
++        av_log(bsf, AV_LOG_ERROR, "Too many OBUs in a Temporal Unit.\n");
++        err = AVERROR_INVALIDDATA;
++        goto fail;
++    }
++
+     if (tu->nb_units == 0 && frag->units[0].type != AV1_OBU_TEMPORAL_DELIMITER) {
+         av_log(bsf, AV_LOG_ERROR, "Missing Temporal Delimiter.\n");
+         err = AVERROR_INVALIDDATA;
+@@ -93,6 +101,11 @@ eof:
+         // Swap fragment index, to avoid copying fragment references.
+         ctx->idx = !ctx->idx;
+     } else {
++        if (tu->nb_units + frag->nb_units > MAX_TU_OBUS) {
++            av_log(bsf, AV_LOG_ERROR, "Too many OBUs in a Temporal Unit.\n");
++            err = AVERROR_INVALIDDATA;
++            goto fail;
++        }
+         for (i = 0; i < frag->nb_units; i++) {
+             err = ff_cbs_insert_unit_content(tu, -1, frag->units[i].type,
+                                              frag->units[i].content, frag->units[i].content_ref);

@@ -9,6 +9,25 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def configuration_files(root):
+    names = {"Dockerfile", "compose.yaml", "build/build-ffmpeg.sh", "build/build-pyexpat.sh"}
+    for directory in ("build/patches", "build/python-patches"):
+        names.update(
+            path.relative_to(root).as_posix() for path in (root / directory).glob("*.patch")
+        )
+    return names
+
+
+def check_configuration(root, expected):
+    if configuration_files(root) != set(expected):
+        raise ValueError(
+            "Container review must be refreshed after changing the native patch inventory"
+        )
+    for filename, fingerprint in expected.items():
+        if hashlib.sha256((root / filename).read_bytes()).hexdigest() != fingerprint:
+            raise ValueError(f"Container review must be refreshed after changing {filename}")
+
+
 def assess(report, reviewed):
     known = {(item["id"], item["package"]) for item in reviewed["findings"]}
     counts = Counter()
@@ -33,9 +52,7 @@ def main():
     reviewed = json.loads((ROOT / "security/container-reviewed.json").read_text())
     if report.get("SchemaVersion") != 2 or not report.get("Results"):
         raise ValueError("Missing or unsupported Trivy report")
-    for filename, expected in reviewed["configuration_sha256"].items():
-        if hashlib.sha256((ROOT / filename).read_bytes()).hexdigest() != expected:
-            raise ValueError(f"Container review must be refreshed after changing {filename}")
+    check_configuration(ROOT, reviewed["configuration_sha256"])
     counts, new, secrets = assess(report, reviewed)
     print("Container scan: " + ", ".join(f"{key}={value}" for key, value in sorted(counts.items())))
     print(f"Secrets: {secrets}; unreviewed high/critical package pairs: {len(new)}")

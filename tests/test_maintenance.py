@@ -1,12 +1,36 @@
 """Regression checks for automated review gates."""
 
 import copy
+import hashlib
 import json
 
 import pytest
 
-from scripts.check_container_scan import assess
+from scripts.check_container_scan import assess, check_configuration, configuration_files
 from scripts.check_native_updates import changes, digest, fetch, release_changes
+
+
+@pytest.mark.parametrize("change", ["add", "remove", "modify"])
+def test_container_gate_rejects_unreviewed_patch_inventory_changes(tmp_path, change):
+    directory = tmp_path / "build/python-patches"
+    directory.mkdir(parents=True)
+    patch = directory / "reviewed.patch"
+    patch.write_text("reviewed fix")
+    for name in ("Dockerfile", "compose.yaml", "build/build-ffmpeg.sh", "build/build-pyexpat.sh"):
+        (tmp_path / name).write_text("reviewed configuration")
+    baseline = {
+        name: hashlib.sha256((tmp_path / name).read_bytes()).hexdigest()
+        for name in configuration_files(tmp_path)
+    }
+    check_configuration(tmp_path, baseline)
+    if change == "add":
+        (directory / "new.patch").write_text("unreviewed fix")
+    elif change == "remove":
+        patch.unlink()
+    else:
+        patch.write_text("changed fix")
+    with pytest.raises(ValueError, match="review must be refreshed"):
+        check_configuration(tmp_path, baseline)
 
 
 def test_container_gate_keeps_reviewed_high_alerts_visible():
