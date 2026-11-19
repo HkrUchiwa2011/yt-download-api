@@ -3,8 +3,10 @@
 import argparse
 import hashlib
 import json
+import os
 import re
 from pathlib import Path
+from urllib.parse import urlsplit
 
 import httpx
 
@@ -13,8 +15,13 @@ TRACKER = "https://security-tracker.debian.org/tracker/data/json"
 
 
 def fetch(url, *, max_bytes=2 * 1024**2):
+    headers = {}
+    token = os.getenv("GITHUB_TOKEN")
+    target = urlsplit(url)
+    if token and target.scheme == "https" and target.netloc == "api.github.com":
+        headers["Authorization"] = f"Bearer {token}"
     with httpx.Client(timeout=30, trust_env=False, follow_redirects=False) as client:
-        with client.stream("GET", url) as response:
+        with client.stream("GET", url, headers=headers) as response:
             response.raise_for_status()
             body = bytearray()
             for chunk in response.iter_bytes():

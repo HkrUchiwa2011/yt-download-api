@@ -4,6 +4,7 @@ import copy
 import hashlib
 import json
 
+import httpx
 import pytest
 
 from scripts.check_container_scan import assess, check_configuration, configuration_files
@@ -106,3 +107,50 @@ def test_native_feed_limits_are_configurable_and_enforced(httpx_mock):
     assert fetch(url, max_bytes=5) == "12345"
     with pytest.raises(ValueError, match="size limit"):
         fetch(url, max_bytes=4)
+
+
+def test_native_github_fetch_uses_job_token(monkeypatch, httpx_mock):
+    monkeypatch.setenv("GITHUB_TOKEN", "test-job-token")
+    url = "https://api.github.com/repos/libexpat/libexpat/releases/latest"
+    httpx_mock.add_response(
+        url=url, match_headers={"Authorization": "Bearer test-job-token"}, text="metadata"
+    )
+    assert fetch(url) == "metadata"
+
+
+def test_native_fetch_without_job_token_is_anonymous(monkeypatch, httpx_mock):
+    monkeypatch.delenv("GITHUB_TOKEN", raising=False)
+    url = "https://api.github.com/repos/libexpat/libexpat/releases/latest"
+    httpx_mock.add_response(url=url, text="metadata")
+    assert fetch(url) == "metadata"
+    assert "authorization" not in httpx_mock.get_request().headers
+
+
+@pytest.mark.parametrize(
+    "url",
+    [
+        "https://metadata.test/feed",
+        "https://api.github.com.attacker.test/feed",
+        "http://api.github.com/feed",
+        "https://api.github.com:8443/feed",
+    ],
+)
+def test_native_fetch_keeps_token_off_other_origins(monkeypatch, httpx_mock, url):
+    monkeypatch.setenv("GITHUB_TOKEN", "test-job-token")
+    httpx_mock.add_response(url=url, text="metadata")
+    assert fetch(url) == "metadata"
+    assert "authorization" not in httpx_mock.get_request().headers
+
+
+def test_native_authenticated_fetch_refuses_redirects(monkeypatch, httpx_mock):
+    monkeypatch.setenv("GITHUB_TOKEN", "test-job-token")
+    url = "https://api.github.com/repos/libexpat/libexpat/releases/latest"
+    httpx_mock.add_response(
+        url=url,
+        status_code=302,
+        headers={"Location": "https://metadata.test/redirect"},
+        match_headers={"Authorization": "Bearer test-job-token"},
+    )
+    with pytest.raises(httpx.HTTPStatusError):
+        fetch(url)
+    assert len(httpx_mock.get_requests()) == 1
