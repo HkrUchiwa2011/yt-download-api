@@ -1,0 +1,34 @@
+From 9f52b443c002cccfb54bda0706a9276b6b4a109d Mon Sep 17 00:00:00 2001
+From: blago1 <74470460+danilablagorodniy37@users.noreply.github.com>
+Date: Wed, 14 Oct 2026 13:50:35 +0100
+Subject: [PATCH] gh-150751: Ignore optional whitespace around Content-Length
+ in http.client (GH-159156)
+
+gh-150752 started validating the Content-Length value against the
+RFC 9112 grammar (1*DIGIT), but the compat32 header parser keeps
+trailing SP/HTAB in the field value, so "Content-Length: 5 " is now
+treated as a missing header. HTTPResponse then assumes that the
+connection will close and read() blocks until the server closes it,
+which never happens on a keep-alive connection.
+
+RFC 9112, section 5.1 says that optional whitespace around a field
+value is excluded by parsers. Strip SP/HTAB before the grammar check;
+values such as "+5", "5_0" and "5 0" are still rejected.
+
+Only the library diff is backported; regressions live in tests/test_python_runtime.py.
+
+diff --git a/Lib/http/client.py b/Lib/http/client.py
+index f13eb6d91b77f6f..21484b835a08ff9 100644
+--- a/Lib/http/client.py
++++ b/Lib/http/client.py
+@@ -397,6 +397,10 @@ def begin(self, *, _max_headers=None):
+         # NOTE: RFC 2616, S4.4, #3 says we ignore this if tr_enc is "chunked"
+         self.length = None
+         length = self.headers.get("content-length")
++        if length is not None:
++            # RFC 9112, section 5.1: optional whitespace (SP / HTAB) around
++            # the field value is not part of the value.
++            length = length.strip(' \t')
+         if length and not self.chunked and _is_legal_content_length(length):
+             self.length = int(length)
+         else:

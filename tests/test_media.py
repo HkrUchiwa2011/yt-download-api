@@ -62,7 +62,18 @@ def media_server(tmp_path):
         check=True,
         timeout=20,
     )
-    for extension in ("mp4", "webm"):
+    subprocess.run(
+        [*common, "-c:v", "libaom-av1", "-cpu-used", "8", "-c:a", "aac", str(source / "av1.mp4")],
+        check=True,
+        timeout=20,
+    )
+    subprocess.run(
+        [*common, "-vn", "-c:a", "libvorbis", str(source / "source.ogg")],
+        check=True,
+        timeout=20,
+    )
+    for source_name, extension in (("source", "mp4"), ("source", "webm"), ("av1", "mp4")):
+        prefix = "av1-" if source_name == "av1" else ""
         for stream, flag in (("video", "-an"), ("audio", "-vn")):
             subprocess.run(
                 [
@@ -70,11 +81,11 @@ def media_server(tmp_path):
                     "-v",
                     "error",
                     "-i",
-                    str(source / f"source.{extension}"),
+                    str(source / f"{source_name}.{extension}"),
                     flag,
                     "-c",
                     "copy",
-                    str(source / f"{stream}.{extension}"),
+                    str(source / f"{prefix}{stream}.{extension}"),
                 ],
                 check=True,
                 timeout=20,
@@ -137,17 +148,19 @@ def media_server(tmp_path):
 
 
 @pytest.mark.parametrize(
-    ("format", "source_ext", "vcodec", "acodec"),
+    ("format", "source_ext", "vcodec", "acodec", "source_name"),
     [
-        ("mp4", "mp4", "h264", "aac"),
-        ("webm", "webm", "vp9", "opus"),
-        ("mp3", "wav", "none", "pcm_s16le"),
-        ("mp3", "mp4", "h264", "aac"),
-        ("mp3", "webm", "vp9", "opus"),
+        ("mp4", "mp4", "h264", "aac", "source"),
+        ("mp4", "mp4", "av1", "aac", "av1"),
+        ("webm", "webm", "vp9", "opus", "source"),
+        ("mp3", "wav", "none", "pcm_s16le", "source"),
+        ("mp3", "mp4", "h264", "aac", "source"),
+        ("mp3", "webm", "vp9", "opus", "source"),
+        ("mp3", "ogg", "none", "vorbis", "source"),
     ],
 )
 def test_actual_transfer_and_ffmpeg_output(
-    redisdb, settings, monkeypatch, media_server, format, source_ext, vcodec, acodec
+    redisdb, settings, monkeypatch, media_server, format, source_ext, vcodec, acodec, source_name
 ):
     original = yt_dlp.YoutubeDL
 
@@ -157,7 +170,7 @@ def test_actual_transfer_and_ffmpeg_output(
                 "id": "fixture",
                 "title": "Fixture",
                 "duration": 1,
-                "url": f"{media_server}/source.{source_ext}",
+                "url": f"{media_server}/{source_name}.{source_ext}",
                 "ext": source_ext,
                 "format_id": "fixture",
                 "vcodec": vcodec,
@@ -193,8 +206,13 @@ def test_actual_transfer_and_ffmpeg_output(
     assert list(output.parent.iterdir()) == [output]
 
 
-@pytest.mark.parametrize("format", ["mp4", "webm"])
-def test_actual_separate_stream_merge(redisdb, settings, monkeypatch, media_server, format):
+@pytest.mark.parametrize(
+    ("format", "prefix", "vcodec", "acodec"),
+    [("mp4", "", "h264", "aac"), ("mp4", "av1-", "av1", "aac"), ("webm", "", "vp9", "opus")],
+)
+def test_actual_separate_stream_merge(
+    redisdb, settings, monkeypatch, media_server, format, prefix, vcodec, acodec
+):
     original = yt_dlp.YoutubeDL
 
     class LocalFixtureYDL(original):
@@ -208,20 +226,20 @@ def test_actual_separate_stream_merge(redisdb, settings, monkeypatch, media_serv
                 "ext": format,
                 "formats": [
                     {
-                        "url": f"{media_server}/video.{format}",
+                        "url": f"{media_server}/{prefix}video.{format}",
                         "ext": format,
                         "format_id": "video",
                         "protocol": "http",
-                        "vcodec": "h264" if format == "mp4" else "vp9",
+                        "vcodec": vcodec,
                         "acodec": "none",
                     },
                     {
-                        "url": f"{media_server}/audio.{format}",
+                        "url": f"{media_server}/{prefix}audio.{format}",
                         "ext": "m4a" if format == "mp4" else format,
                         "format_id": "audio",
                         "protocol": "http",
                         "vcodec": "none",
-                        "acodec": "aac" if format == "mp4" else "opus",
+                        "acodec": acodec,
                     },
                 ],
             }
@@ -246,12 +264,14 @@ def test_actual_separate_stream_merge(redisdb, settings, monkeypatch, media_serv
     assert list(output.parent.iterdir()) == [output]
 
 
-@pytest.mark.parametrize("case", ["encryption", "hdr"])
+@pytest.mark.parametrize(
+    "case", ["encryption", "hdr", "aac", "av1-packet", "av1-buffer", "vorbis", "flac-disabled"]
+)
 def test_native_security_regressions(case):
     binary = os.environ.get("NATIVE_TEST_BINARY")
     if not binary:
         pytest.skip("Requires Docker's patched native library test binary")
-    subprocess.run([binary, case], check=True, timeout=5)
+    subprocess.run([binary, case], check=True, timeout=15)
 
 
 def test_excessive_mp4_encryption_metadata_is_rejected(tmp_path, media_server):

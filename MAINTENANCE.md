@@ -48,14 +48,16 @@ check that the schedule remains enabled during inactive periods.
 ## Native runtime changes
 
 Python image updates must match `PYTHON_VERSION`, its source hash and the
-extension location in Dockerfile. Review the cookie policy backport and remove
-it only once the selected upstream version includes the fix. FFmpeg/Expat
+extension location in Dockerfile. Review the cookie policy and HTTP framing
+backports and remove them only once the selected upstream version includes
+the fixes, including framing whitespace compatibility. FFmpeg/Expat
 updates need verified source hashes, patch review and the complete container
 tests; see [build/README.md](build/README.md).
 
 `security/container-reviewed.json` records the reviewed high package pairs and
-hashes of the container/native configuration. Changing those files requires a
-new assessment. `security/native-reviewed.json` records the source advisory
+hashes of the container/native configuration. Changing those files, or adding
+or removing native patches, requires a new assessment.
+`security/native-reviewed.json` records the source advisory
 snapshot and reasons for open findings. Refresh either file only after reviewing
 the changed exposure, then update `SECURITY_REVIEW.md`. Never accept new IDs or
 replace fingerprints solely to make a failing job green.

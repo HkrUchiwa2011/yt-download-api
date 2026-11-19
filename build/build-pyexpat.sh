@@ -19,7 +19,7 @@ for fix in /python-patches/*.patch; do
     patch -p1 --fuzz=0 --batch -d /tmp/python < "$fix"
 done
 mkdir -p /native-stdlib/http
-cp /tmp/python/Lib/http/cookiejar.py /native-stdlib/http/cookiejar.py
+cp /tmp/python/Lib/http/cookiejar.py /tmp/python/Lib/http/client.py /native-stdlib/http/
 cd /tmp/expat
 ./configure --prefix=/opt/expat --disable-static --without-examples --without-tests --without-xmlwf --without-docbook
 make -j2

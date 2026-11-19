@@ -1,5 +1,5 @@
 {
-  "reviewed_on": "2026-11-14",
+  "reviewed_on": "2026-11-18",
   "versions": {
     "ffmpeg": "9.0.2",
     "expat": "2.10.0",
@@ -532,9 +532,96 @@
         "CVE-2026-120245",
         "CVE-2026-120246",
         "CVE-2026-120247",
+        "CVE-2026-125068",
+        "CVE-2026-125069",
+        "CVE-2026-125070",
+        "CVE-2026-125071",
+        "CVE-2026-125072",
+        "CVE-2026-125073",
+        "CVE-2026-125100",
+        "CVE-2026-125101",
+        "CVE-2026-125102",
+        "CVE-2026-125103",
+        "CVE-2026-125104",
+        "CVE-2026-125170",
+        "CVE-2026-125171",
+        "CVE-2026-125172",
+        "CVE-2026-125173",
+        "CVE-2026-125174",
+        "CVE-2026-125175",
+        "CVE-2026-125202",
+        "CVE-2026-125203",
+        "CVE-2026-125204",
+        "CVE-2026-125205",
+        "CVE-2026-125206",
+        "CVE-2026-125207",
+        "CVE-2026-125208",
+        "CVE-2026-125209",
+        "CVE-2026-125210",
+        "CVE-2026-125211",
+        "CVE-2026-125212",
+        "CVE-2026-125213",
+        "CVE-2026-125214",
+        "CVE-2026-125215",
+        "CVE-2026-125216",
+        "CVE-2026-125217",
+        "CVE-2026-125218",
+        "CVE-2026-125219",
+        "CVE-2026-125220",
+        "CVE-2026-125221",
+        "CVE-2026-125222",
+        "CVE-2026-125223",
+        "CVE-2026-125224",
+        "CVE-2026-125225",
+        "CVE-2026-125226",
+        "CVE-2026-125227",
+        "CVE-2026-125228",
+        "CVE-2026-125229",
+        "CVE-2026-125230",
+        "CVE-2026-125231",
+        "CVE-2026-125232",
+        "CVE-2026-125233",
+        "CVE-2026-125234",
+        "CVE-2026-125235",
+        "CVE-2026-125236",
+        "CVE-2026-125237",
+        "CVE-2026-125238",
+        "CVE-2026-125239",
+        "CVE-2026-125240",
+        "CVE-2026-125241",
+        "CVE-2026-125242",
+        "CVE-2026-125243",
+        "CVE-2026-125244",
+        "CVE-2026-125245",
+        "CVE-2026-125246",
+        "CVE-2026-125247",
+        "CVE-2026-125248",
+        "CVE-2026-125249",
+        "CVE-2026-125250",
+        "CVE-2026-125251",
+        "CVE-2026-125252",
+        "CVE-2026-125253",
+        "CVE-2026-125254",
+        "CVE-2026-125255",
+        "CVE-2026-125256",
+        "CVE-2026-125257",
+        "CVE-2026-125258",
+        "CVE-2026-125259",
+        "CVE-2026-125260",
+        "CVE-2026-125261",
+        "CVE-2026-125262",
+        "CVE-2026-125263",
+        "CVE-2026-125264",
+        "CVE-2026-125265",
+        "CVE-2026-125266",
+        "CVE-2026-125267",
+        "CVE-2026-125268",
+        "CVE-2026-125269",
+        "CVE-2026-125270",
         "CVE-2026-12706",
         "CVE-2026-13858",
         "CVE-2026-18393",
+        "CVE-2026-28731",
         "CVE-2026-30754",
         "CVE-2026-30997",
         "CVE-2026-30999",
@@ -635,6 +722,334 @@
         "CVE-2026-120247": {
           "description_sha256": "53e10b19b2c00c8dac8a02a812093e5f96d96b9737c4530e568765122a56cca2",
           "reason": "Affected FFmpeg protocol/demuxer/decoder omitted from the restricted build"
+        },
+        "CVE-2026-125068": {
+          "description_sha256": "e3deb3366507febc98bab709f9fc88185f76ae77eb864db323322f0b00f54032",
+          "reason": "Omitted: Bink video decoder"
+        },
+        "CVE-2026-125069": {
+          "description_sha256": "80cc23a70e9f4fc8d004917252fb6df7d65a445b18662380527af5784cd87a51",
+          "reason": "Omitted: Motion Pixels decoder"
+        },
+        "CVE-2026-125070": {
+          "description_sha256": "e028cc9ea37e807c6b60eafcb1b93a9ba738e626cc711e5b09c722ba034e23e8",
+          "reason": "Omitted: EA TQI decoder"
+        },
+        "CVE-2026-125071": {
+          "description_sha256": "fcfb4fc0a0eef25f643169b746f8daedb00f9ebea33845ba351dceb4b219e550",
+          "reason": "Omitted: JV decoder"
+        },
+        "CVE-2026-125072": {
+          "description_sha256": "b8f1bade1ef31f7498a419874df7f042515fdad3711f42c252bd84edf526a96f",
+          "reason": "Omitted: mp3adu decoder (ordinary MP3 decoders do not expose this oversized-packet path)"
+        },
+        "CVE-2026-125073": {
+          "description_sha256": "69cac807b7ca2284b67fa0bd4bb166310f3c1bec52a679d24160eaa0494da29b",
+          "reason": "Omitted: IMC/IAC decoders"
+        },
+        "CVE-2026-125100": {
+          "description_sha256": "d27aef3d4aefe0494f89ca53498b276ad1d60808839f4ff085b535b372246d77",
+          "reason": "Omitted: OpenEXR decoder"
+        },
+        "CVE-2026-125101": {
+          "description_sha256": "207c7f4435db4bf8cbcb71fe23f768b1c3a6fe434150344b53aabb37f9998d14",
+          "reason": "Omitted: VMnc decoder"
+        },
+        "CVE-2026-125102": {
+          "description_sha256": "17e0093ce9cbf703c895136a67472deec055855fd5124c6edf3513abaac5b86d",
+          "reason": "Omitted: TAK decoder"
+        },
+        "CVE-2026-125103": {
+          "description_sha256": "5d6bbd97ba236edac3b3de900caec64fd2bf5a4ef429b63e1d8aec13d45ce484",
+          "reason": "Omitted: MPEG-4 ALS decoder / MLZ decompression"
+        },
+        "CVE-2026-125104": {
+          "description_sha256": "e4baa668e90afcb9ba508a04ce37ac8ef7572a19037fb7ef08ac07b79fa7f543",
+          "reason": "Omitted: APE decoder"
+        },
+        "CVE-2026-125170": {
+          "description_sha256": "a5dbfd68b4557e92f540506f0cfe62fac45944f8c02f15cc88a101ffee293b24",
+          "reason": "Omitted: Targa decoder"
+        },
+        "CVE-2026-125171": {
+          "description_sha256": "ab2fb034f83bb5610d708e54e3900725bb5f1aab1db7d062f323e6dbdbbf9958",
+          "reason": "Omitted: Musepack SV7 decoder"
+        },
+        "CVE-2026-125172": {
+          "description_sha256": "d00383ef841c09f63040c7d12131493e92df3e9a774be367377c6fe2da12c270",
+          "reason": "Omitted: libxevd EVC decoder"
+        },
+        "CVE-2026-125173": {
+          "description_sha256": "2d7a3969234d49cbd1de9cd319475ed3f652aa500d4b285fae093ee1139ca3d4",
+          "reason": "Omitted: libxevd EVC decoder"
+        },
+        "CVE-2026-125174": {
+          "description_sha256": "b22b5511b1ab9d6b6b1b27b652691439cd61cc94e386d2171c4bf82992242f76",
+          "reason": "Omitted: Hap decoder (also fixed in 9.0.2)"
+        },
+        "CVE-2026-125175": {
+          "description_sha256": "02db0af80c36ed02016bea845f489af6833cade0c708c6485615b2b04617dcf2",
+          "reason": "Omitted: Flash Screen Video decoder"
+        },
+        "CVE-2026-125202": {
+          "description_sha256": "6ddc826f7d5dfe38ceb7ed30395c7973dca92681b50b53e9e461a2fa40c613d7",
+          "reason": "Omitted: VAAPI HEVC hardware acceleration"
+        },
+        "CVE-2026-125204": {
+          "description_sha256": "94b8ff3e475faf1cec18c82f4ea6391e9932a9f0fa3cb485e02af5e5038a007d",
+          "reason": "Omitted: libwebp encoder"
+        },
+        "CVE-2026-125205": {
+          "description_sha256": "1228a8734e3aab310891c546e0b10f025699a1f6594c6123a9b23d33533a3bb7",
+          "reason": "Backported AV1 temporal-unit OBU limits (ffmpeg-av1-obu-limit.patch); raw OBU demuxers are omitted but the enabled BSF also receives container packets"
+        },
+        "CVE-2026-125206": {
+          "description_sha256": "2590ed339b1a9bfae670dafe7fe29a6ac9fdb3b1eed1af7195ccb947780fcde8",
+          "reason": "Omitted: ProRes KS encoder"
+        },
+        "CVE-2026-125207": {
+          "description_sha256": "3066436b06e462daacba46b6302ae1de75970e83a77a7ecf83723de29ac737b8",
+          "reason": "Omitted: Interplay ACM decoder"
+        },
+        "CVE-2026-125208": {
+          "description_sha256": "c6cd01b43a778a04b174a3e6e5618dacd36ca27c8d536983d58e021915a625be",
+          "reason": "Omitted: V4L2 M2M encoding"
+        },
+        "CVE-2026-125209": {
+          "description_sha256": "bbf674367d7c9a10fb906c185a5983ef9acfd847a39c21bf024cc6f09127cbf1",
+          "reason": "Omitted: DVD subtitle encoder (also fixed in 9.0.2)"
+        },
+        "CVE-2026-125210": {
+          "description_sha256": "6e2a25c161cd96f64db4cca3ac11f46c821fa4a9395713688268b01be7670c61",
+          "reason": "Omitted: libaribcaption subtitle decoder"
+        },
+        "CVE-2026-125211": {
+          "description_sha256": "bac048c3c9ea0eebaacf9fdeab69bb5c349a24cbe4a7a4eab1dd5356637466b6",
+          "reason": "Omitted: libaribcaption subtitle decoder"
+        },
+        "CVE-2026-125212": {
+          "description_sha256": "e151d234f764d78bdc5ecb303a1703041490f7688ef9b20ef9113567fcf73c98",
+          "reason": "Omitted: VideoToolbox encoders"
+        },
+        "CVE-2026-125213": {
+          "description_sha256": "4234c6acd2bb2b8b7954ed7cd56c7e18891e501ada847ff7aae84f18689da7c7",
+          "reason": "Omitted: PSD decoder"
+        },
+        "CVE-2026-125214": {
+          "description_sha256": "ebdf912831ca581756319b94b70471d3e86ed1c72836e4e544ffdfea77d7aa3c",
+          "reason": "Omitted: Blu-ray LPCM decoder (enabled WAV PCM decoders are separate)"
+        },
+        "CVE-2026-125215": {
+          "description_sha256": "871491b66ef0f0cab0c34ee014f8a0ce1e93e5760caa3c945442e6c3c5d4ec04",
+          "reason": "Omitted: dovi_rpu bitstream filter / Dolby Vision RPU generation"
+        },
+        "CVE-2026-125216": {
+          "description_sha256": "39de3af231083b92c2f680452946952e47a8ea06a81a0a41b72d3cecffe3de90",
+          "reason": "Omitted: DPX encoder"
+        },
+        "CVE-2026-125217": {
+          "description_sha256": "66c68f3012f642b8bb649d76930e3da6ec9c2e10edb676e18f7032d5802177c1",
+          "reason": "Omitted: RoQ DPCM encoder"
+        },
+        "CVE-2026-125218": {
+          "description_sha256": "1a70f9fde01752f8e2b26e2ef0b98cd2e3698a97f0fdd42397f10bffc1c7135b",
+          "reason": "Omitted: APNG encoder"
+        },
+        "CVE-2026-125219": {
+          "description_sha256": "db8840ad9e4837c55180840f2a33d345cd732e106546f72d123f0300913130d8",
+          "reason": "Omitted: VDPAU HEVC hardware acceleration"
+        },
+        "CVE-2026-125220": {
+          "description_sha256": "f9de4119a9f7db718c76cb06b59a0282aea79d122b4ddb5f3afd03a6a2fcb8b7",
+          "reason": "Omitted: Mimic decoder"
+        },
+        "CVE-2026-125221": {
+          "description_sha256": "1f7172759bd6d39843b3f07a6a7fdec40932c6e2b09fa92628a4afaac8cab28b",
+          "reason": "Removed FLAC decoder, parser and demuxer; not required for YouTube streams"
+        },
+        "CVE-2026-125222": {
+          "description_sha256": "53f560cd5a3e3079547932ce80b8ae992f69680dbbccca4400696e737068b9e0",
+          "reason": "Omitted: Hap decoder"
+        },
+        "CVE-2026-125223": {
+          "description_sha256": "da8bb8ad37b8e03b5140ac30c33c99fa4159f20ebbcfa572e856671455e41737",
+          "reason": "Backported VP9 CBS-fragment cleanup on every affected decoder error path (ffmpeg-vp9-cleanup.patch)"
+        },
+        "CVE-2026-125224": {
+          "description_sha256": "394ce8bf44b7393c724b17e55201447d42937b8e229bf166d5e1c8e54b6ca7de",
+          "reason": "Backported one-time Vorbis extradata parsing (ffmpeg-vorbis-once.patch)"
+        },
+        "CVE-2026-125225": {
+          "description_sha256": "995f4b9dc4e7dec5cfcf462c809086e523fd7a7ad32790666e3fcce8706485a8",
+          "reason": "Backported checked AAC PCE bit-reader initialization (ffmpeg-aac-bitreader.patch)"
+        },
+        "CVE-2026-125226": {
+          "description_sha256": "1d313eb1566b8d0e849633795f3ebf51ced259e43ff6ecdede8a3f6ef0c5e6bb",
+          "reason": "Omitted: SBaGen demuxer / wavesynth decoder"
+        },
+        "CVE-2026-125227": {
+          "description_sha256": "c8f4d78bd8af1e1bf1dc39f9d14713f8cfd42c8131cb78056b9138cb84c8ec5e",
+          "reason": "Omitted: JPEG CBS and JPEG-processing bitstream filters"
+        },
+        "CVE-2026-125229": {
+          "description_sha256": "b455ae3950ea927ba3464ff8eec5659b8123407680b9fd17d7dacc579961ef3a",
+          "reason": "Omitted: Huffyuv / FFVHUFF encoders"
+        },
+        "CVE-2026-125230": {
+          "description_sha256": "4356cf5ad39205cc689b1090dc2baa86127831bc75d9fea30951e06ce9df2a5c",
+          "reason": "Omitted: pcm_rechunk bitstream filter and MXF/GXF/DAUD muxers"
+        },
+        "CVE-2026-125231": {
+          "description_sha256": "c7e6d3214f13bff631badd8df514b795e6b7415f204ac23fc88d9f63720c5cdc",
+          "reason": "Omitted: ADX decoder"
+        },
+        "CVE-2026-125232": {
+          "description_sha256": "d51d84410f513981869346842f5db7022394c67157dc5d8f40ffc0196ded2956",
+          "reason": "Omitted: MPEG-1/2/4 video encoders and B-frame motion estimation"
+        },
+        "CVE-2026-125233": {
+          "description_sha256": "a6b0ba0b938270127bc438a53c1bbaef0f7bd1dfc0f830f46fe077c256d7ca34",
+          "reason": "Omitted: DVB subtitle encoder"
+        },
+        "CVE-2026-125234": {
+          "description_sha256": "958ef3218adbf2fb5bc923d5aa8481ba2cf5c2ce4ececd988d95d60ea1c3a287",
+          "reason": "Omitted: WavPack encoder"
+        },
+        "CVE-2026-125235": {
+          "description_sha256": "105a22145c56a2a246284b8e4f92e1bca48f63392e90d575027811bf5ac594b5",
+          "reason": "Omitted: Intel QSV encoders"
+        },
+        "CVE-2026-125236": {
+          "description_sha256": "1712b9cab5f564553871d905f5a6696ff6a3ca9d2ed590baee0480abfb8d11d9",
+          "reason": "Omitted: VVC decoder"
+        },
+        "CVE-2026-125237": {
+          "description_sha256": "87d32f80848e0b6d7dfe495352fd09af48262b3a7a28b6c7fa52a29a9bd15d3a",
+          "reason": "Omitted: DPX decoder and Vulkan acceleration"
+        },
+        "CVE-2026-125238": {
+          "description_sha256": "52046afbee326ebf46972826e75c3590d69e09e896ddc9214857d23561671ea6",
+          "reason": "Omitted: libxevd EVC decoder"
+        },
+        "CVE-2026-125239": {
+          "description_sha256": "21951eab2d528299614e4514e9bea8f1508bdf07751bcdbac0ded55d7516e757",
+          "reason": "Omitted: DXVA2/D3D11VA/D3D12VA HEVC acceleration"
+        },
+        "CVE-2026-125240": {
+          "description_sha256": "dfb83a3d101aec55fc9d4befb188fe44dec8795f4f5d9766a2d1afd2a7751000",
+          "reason": "Omitted: libsvtjpegxs decoder"
+        },
+        "CVE-2026-125241": {
+          "description_sha256": "553abd74296ee8b16ec48df29291be07d3b63398757a5a0ceebc93ee2a88ba3a",
+          "reason": "Omitted: FLIC decoder"
+        },
+        "CVE-2026-125242": {
+          "description_sha256": "03ea3ae6546ab97aa608d32de545be6421d20be2f71f596ca39dfede80811e8d",
+          "reason": "Omitted: VDPAU hardware acceleration"
+        },
+        "CVE-2026-125243": {
+          "description_sha256": "699293f8e2dffef99202b5516dd35a315443104266e901008516d52bfaeac22a",
+          "reason": "Omitted: JPEG-LS decoder"
+        },
+        "CVE-2026-125245": {
+          "description_sha256": "549530f7c9256f7495dd4089136466e4b7f00ae6b19a5fbbd403e8d41039ff82",
+          "reason": "Omitted: MJPEG decoder / VAAPI and NVDEC acceleration"
+        },
+        "CVE-2026-125246": {
+          "description_sha256": "548c778628c0f77b0d25787e4e56d755c5cadee2dccb634843e084100e5479b6",
+          "reason": "Omitted: JPEG CBS and JPEG-processing bitstream filters"
+        },
+        "CVE-2026-125247": {
+          "description_sha256": "407bd9e7eb8da0b8c684312f7a1870b32f7f12ecaaffe29ca4b1ff81395beb10",
+          "reason": "Omitted: TIFF/DNG decoder"
+        },
+        "CVE-2026-125248": {
+          "description_sha256": "f47a3a069136544bd78effafd31b196f8cef7422fcc2cfa5c472b4c81f1bfd19",
+          "reason": "Omitted: Vulkan FFV1 encoder"
+        },
+        "CVE-2026-125249": {
+          "description_sha256": "c069901746f09c59f505856750171ae02df262c7addcd12b82c3a143be51ac37",
+          "reason": "Omitted: Vulkan decoding"
+        },
+        "CVE-2026-125250": {
+          "description_sha256": "49bc7e7159677af34f2bd087766507e8b04228a6526e64bb8536698cb8515108",
+          "reason": "Omitted: GIF encoder"
+        },
+        "CVE-2026-125251": {
+          "description_sha256": "ae7c89b9275b161504ab4175bcfe3680302b5cd2adc8f94e7df10090c5750238",
+          "reason": "Omitted: VVC decoder"
+        },
+        "CVE-2026-125252": {
+          "description_sha256": "cb2755a9bc0e559f8fe95562bc0c5e3b8976c6e927c2fbc90874ca076f2019e8",
+          "reason": "Omitted: VAAPI decoding"
+        },
+        "CVE-2026-125253": {
+          "description_sha256": "b44d6f4536f9fc7954507a4ad861bbb15a896d5ea44ecc7f427cfbb3f1550d1b",
+          "reason": "Backported subtraction-based VP9 superframe bounds (ffmpeg-vp9-size.patch); applies defensively to 32-bit builds, local execution is amd64"
+        },
+        "CVE-2026-125254": {
+          "description_sha256": "e992960ea3dd3bfb2bf4f63f849d21a6b6e998d53bd15610c3ede3fbc885b2c9",
+          "reason": "Omitted: VVC decoder"
+        },
+        "CVE-2026-125255": {
+          "description_sha256": "a8061dea7787c86103ded6872d334cec689b10076f827c1b5c4ec58e2d5a7d92",
+          "reason": "Omitted: MJPEG decoder / NVDEC acceleration"
+        },
+        "CVE-2026-125256": {
+          "description_sha256": "1c788c1065b27f074649f156478c2ae6d6720713d12cdbac6156323d45381255",
+          "reason": "Omitted: Huffyuv encoder and RISC-V RVV encoding routines"
+        },
+        "CVE-2026-125257": {
+          "description_sha256": "6ec3d07db7129e68720377ff80b8165a28bf48f27eccb9dc86a6723f7173a9ed",
+          "reason": "Omitted: Nellymoser encoder"
+        },
+        "CVE-2026-125258": {
+          "description_sha256": "d0ce8740dbd6a10b1b0e6bc8a7ce7ce851bc9112c9c6adf168d25bc39142f585",
+          "reason": "Omitted: dovi_rpu bitstream filter and libx265/libaom/libsvtav1 encoders"
+        },
+        "CVE-2026-125259": {
+          "description_sha256": "5dcb797fa60fb9b8e3d236bd9300169792e33d6f48f4da855aa31ccae9ef9776",
+          "reason": "Omitted: ProRes KS encoder"
+        },
+        "CVE-2026-125260": {
+          "description_sha256": "3155a9e10580b50ec423cf2519b6db8b2b16f8f897f48b265cb45fd603bf2a9b",
+          "reason": "Omitted: OpenEXR encoder"
+        },
+        "CVE-2026-125261": {
+          "description_sha256": "e8a82bd3d9188af4ca9e2a1f300bc9dc286c9654eff65de373ab51174125ddf6",
+          "reason": "Omitted: SGI encoder"
+        },
+        "CVE-2026-125262": {
+          "description_sha256": "d80716d05084bb484bff3460b7eef1d883a08f460a32ea7a73669ae714d6d0f6",
+          "reason": "Omitted: LCEVC decoder"
+        },
+        "CVE-2026-125263": {
+          "description_sha256": "31a1116302cb5dccf7485bd8b21db82c1c99f1a5d7e48c6cefc3b2999ae060df",
+          "reason": "Omitted: liblcevc_dec integration"
+        },
+        "CVE-2026-125264": {
+          "description_sha256": "3ee796a9f3a19d7762ab33bc1c460a98746ac520561314b57bb8d9b6cf1cb349",
+          "reason": "Omitted: JPEG XL parser"
+        },
+        "CVE-2026-125265": {
+          "description_sha256": "b593d0ae1d6af2a239d46748ade2b3f98e66f85b31798fff0dcbfe3a3a8f899a",
+          "reason": "Omitted: NVDEC decoding"
+        },
+        "CVE-2026-125266": {
+          "description_sha256": "4e2ab9ce912e4f4ce7fbb09d6e9f5e292f193abccec478aaa2052a4501ed3327",
+          "reason": "Omitted: SANM decoder"
+        },
+        "CVE-2026-125268": {
+          "description_sha256": "e2a89f3525fc0d24462be734af5ccad143428aa349e6d70b23f256f485f73ff2",
+          "reason": "Omitted: CineForm HD decoder"
+        },
+        "CVE-2026-125269": {
+          "description_sha256": "cc735203be0e02c185f28761f96b813b5b82e9a45f1ac3b28c69b80711a188c0",
+          "reason": "Omitted: h264_metadata bitstream filter and SEI insertion (stream-copy filters do not invoke that operation)"
+        },
+        "CVE-2026-125270": {
+          "description_sha256": "9a448318ca9dfc9a4a2fedd7ee9f78838652c3708b6bfd86a851bb686119a35d",
+          "reason": "Omitted: V4L2 M2M encoders"
         }
       }
     },
@@ -771,8 +1186,10 @@
         "CVE-2026-0672",
         "CVE-2026-0864",
         "CVE-2026-0865",
+        "CVE-2026-103995",
         "CVE-2026-114583",
         "CVE-2026-115557",
+        "CVE-2026-115559",
         "CVE-2026-115791",
         "CVE-2026-116566",
         "CVE-2026-11940",
@@ -785,6 +1202,7 @@
         "CVE-2026-15308",
         "CVE-2026-15310",
         "CVE-2026-15806",
+        "CVE-2026-16052",
         "CVE-2026-17084",
         "CVE-2026-18503",
         "CVE-2026-19445",
@@ -848,6 +1266,18 @@
         "CVE-2026-3479": {
           "description_sha256": "6cd82a1f1e9f74191edb83639b12a9985190b53edeae6d78ea1379edced6a5ac",
           "reason": "Disputed/documentation issue; no user-controlled pkgutil resource path"
+        },
+        "CVE-2026-103995": {
+          "description_sha256": "349dd855b416d8effac349acb3990c1cdccc53f7f81b15829b2fd65574ef4d79",
+          "reason": "Backported strict HTTP framing grammar plus optional Content-Length whitespace compatibility (python-http-framing-*.patch)"
+        },
+        "CVE-2026-115559": {
+          "description_sha256": "cffe9a9cee9ff537e4595f64841a31f35c611f2e1da94d1e083c2721b1645c48",
+          "reason": "IMAP STARTTLS is not used by API routes, workers or configured yt-dlp extractors"
+        },
+        "CVE-2026-16052": {
+          "description_sha256": "b88f279a4ad7431e4a53269451278dc28f362fcc9ccc735d197c16273415a324",
+          "reason": "No response-cookie creation or user-controlled Morsel attribute values; cookies are consumed by yt-dlp, not emitted from API input"
         }
       }
     }
