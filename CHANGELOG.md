@@ -3,6 +3,7 @@
 ## 1.1.0 — unreleased
 
 - GitHub Actions regression/security checks and weekly Dependabot proposals; explicit review gates for container/native advisories.
+- Authenticate native-watch GitHub API requests with the temporary read-only job token; keep credentials off other source hosts and refuse redirects.
 - FastAPI 0.162.7 and a Python cookie-policy backport for CVE-2026-124249.
 - Python HTTP framing validation for CVE-2026-103995, preserving valid Content-Length whitespace.
 - FFmpeg AAC, AV1, Vorbis and VP9 security backports; unused FLAC components removed. Native patch additions/removals also require a refreshed security review.

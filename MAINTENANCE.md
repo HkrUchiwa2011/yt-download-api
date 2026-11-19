@@ -20,6 +20,11 @@ list. New advisories, reopened or changed open advisories, new releases and
 changes to the pending list require review. This supplements the package scan;
 it cannot detect every undisclosed vulnerability or assess applicability itself.
 
+The native watch uses GitHub Actions' temporary read-only token for HTTPS
+requests to `api.github.com`, avoiding the shared runner's anonymous API quota.
+Other source hosts receive no token, and redirects are refused. Local runs
+can optionally use `GITHUB_TOKEN`; credentials are never stored in this repository.
+
 Dependabot proposes weekly updates for uv dependencies, GitHub Actions and Docker
 images on Mondays at 06:00 UTC. Compatible Python updates are grouped; major
 updates remain separate. Security updates may arrive outside that schedule.

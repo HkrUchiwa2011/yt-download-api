@@ -79,6 +79,8 @@ jobs:
         run: uv run --locked python scripts/check_container_scan.py trivy-report.json
       - name: Watch native sources
         if: always()
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: uv run --locked python scripts/check_native_updates.py
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
         if: always()
