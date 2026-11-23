@@ -4,7 +4,7 @@ version = "1.1.0"
 description = "Self-hosted YouTube download API with Redis-backed workers"
 requires-python = ">=3.11"
 dependencies = [
-  "fastapi>=0.162.6,<0.163", "uvicorn[standard]>=0.54.0,<0.55",
+  "fastapi>=0.162.6,<0.166", "uvicorn[standard]>=0.54.0,<0.55",
   "pydantic>=2.14.3,<3", "pydantic-settings>=2.16.3,<3",
   "redis>=8.1.0,<9", "httpx>=0.28.1,<0.29", "rq>=3.0.0,<4",
   "yt-dlp[default,curl-cffi]>=2026.10.26", "deno>=2.9.8,<3",
