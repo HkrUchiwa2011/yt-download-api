@@ -15,7 +15,7 @@ done
 # yt-dlp handles downloads; FFmpeg only processes local media.
 # Enable video stream copying and audio decoding for MP3 conversion.
 ./configure \
-    --prefix=/opt/ffmpeg --extra-version=yt2 --extra-ldflags=-Wl,-rpath,/opt/ffmpeg/lib \
+    --prefix=/opt/ffmpeg --extra-version=yt1 --extra-ldflags=-Wl,-rpath,/opt/ffmpeg/lib \
     --disable-autodetect --disable-everything --disable-network \
     --disable-doc --disable-debug --disable-static --enable-shared \
     --disable-avdevice --disable-swscale --disable-hwaccels \

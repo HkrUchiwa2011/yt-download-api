@@ -27,7 +27,7 @@ d'exemple est refusée au démarrage. Lancez ensuite :
 docker compose up --build -d
 ```
 
-L'image fournie compile une version limitée de FFmpeg 9.0.2 avec des corrections
+L'image fournie compile une version limitée de FFmpeg 9.1 avec des corrections
 de sécurité ciblées et met à jour le parseur XML intégré à Python. Les sources
 sont vérifiées par leur empreinte ; les étapes de compilation sont exclues de
 l'image finale. Consultez les [détails de compilation native](build/README.md).

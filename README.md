@@ -23,7 +23,7 @@ Put the generated secret in `.env` as `API_KEY`. The placeholder is rejected at 
 docker compose up --build -d
 ```
 
-The supplied image builds a restricted FFmpeg 9.0.2 with targeted security
+The supplied image builds a restricted FFmpeg 9.1 with targeted security
 patches and updates Python's embedded XML parser. Sources are pinned by hash;
 compiler stages are excluded from the runtime. See [native build details](build/README.md).
 

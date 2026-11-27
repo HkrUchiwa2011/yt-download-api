@@ -1,5 +1,5 @@
 {
-  "reviewed_on": "2026-11-18",
+  "reviewed_on": "2026-11-27",
   "scope": "Supplied non-root Compose runtime; see SECURITY_REVIEW.md",
   "findings": [
     {
@@ -128,6 +128,16 @@
       "reason": "No SQLite FTS5/session operations"
     },
     {
+      "id": "CVE-2026-107494",
+      "package": "libssl3t64",
+      "reason": "OpenSSL QUIC frame handling is unused; Uvicorn uses TCP and worker TLS clients do not use OpenSSL QUIC"
+    },
+    {
+      "id": "CVE-2026-124709",
+      "package": "libssl3t64",
+      "reason": "Requires an OpenSSL QUIC server; API uses Uvicorn h11 over TCP and workers do not serve QUIC"
+    },
+    {
       "id": "CVE-2026-16742",
       "package": "libsystemd0",
       "reason": "systemd-homed is absent"
@@ -213,6 +223,26 @@
       "reason": "infocmp is not invoked by the application"
     },
     {
+      "id": "CVE-2026-107494",
+      "package": "openssl",
+      "reason": "OpenSSL QUIC frame handling is unused; Uvicorn uses TCP and worker TLS clients do not use OpenSSL QUIC"
+    },
+    {
+      "id": "CVE-2026-124709",
+      "package": "openssl",
+      "reason": "Requires an OpenSSL QUIC server; API uses Uvicorn h11 over TCP and workers do not serve QUIC"
+    },
+    {
+      "id": "CVE-2026-107494",
+      "package": "openssl-provider-legacy",
+      "reason": "OpenSSL QUIC frame handling is unused; Uvicorn uses TCP and worker TLS clients do not use OpenSSL QUIC"
+    },
+    {
+      "id": "CVE-2026-124709",
+      "package": "openssl-provider-legacy",
+      "reason": "Requires an OpenSSL QUIC server; API uses Uvicorn h11 over TCP and workers do not serve QUIC"
+    },
+    {
       "id": "CVE-2026-9538",
       "package": "perl-base",
       "reason": "No Perl archive processing"
@@ -239,17 +269,10 @@
     }
   ],
   "configuration_sha256": {
-    "Dockerfile": "2a70e366eca39112b9f7ccc559c3c04fa5c3343c7069db586cd16646d16d21d7",
-    "build/build-ffmpeg.sh": "9cd9da21dfbbab41d16507a83dd2606ed6a3cffbd594dee084294e20ccd66f6d",
+    "Dockerfile": "e48d964c8e61433d945cffc8581fee25ce84f18d771f4e95efe4dbfd71152237",
+    "build/build-ffmpeg.sh": "6b27a3ed1809756381bb9796b0dba9cad820edeb02b94689dda41a1fd510a29f",
     "build/build-pyexpat.sh": "2a203e2c6ff7cbc5a5b08838cef17fa21e5a7aa49d2e703831d3bc2e11024031",
-    "build/patches/ffmpeg-aac-bitreader.patch": "828e0ead09f4758b1d9a30ff545d29b6bff5620ea03972b3d0cebda3e21fd28d",
-    "build/patches/ffmpeg-av1-obu-limit.patch": "b580c56ab7555df5fd2661028564c9d353f6cff4658fc3227f75848f1e3c0331",
-    "build/patches/ffmpeg-encryption-free.patch": "71603aadf07cff132779c8c07bc65452c609ff5e8714c44ff356427b2d4d26c7",
-    "build/patches/ffmpeg-hdr.patch": "d490131cb0d4605d7aca2938b5bf9a0685ca8c0bcbb7ef61ceeb123800c8be37",
-    "build/patches/ffmpeg-pssh-limit.patch": "870549dbf8965fec8b5d537ae48aaca1e11687806ecd52be1b51a65073cca0ac",
-    "build/patches/ffmpeg-vorbis-once.patch": "5050ee50e1ee6921d3e987f47b13a3098f8f8aebba722645080171420facf6b3",
-    "build/patches/ffmpeg-vp9-cleanup.patch": "2604f717fb89f693694e1a14e1f484464f26d0b26dec8e39421ea25b044060a6",
-    "build/patches/ffmpeg-vp9-size.patch": "268d4db0c364ae64e3ce5efc3178ae2c1dbd89df05b2ea84c341899f32c59a67",
+    "build/patches/ffmpeg-pssh-limit.patch": "35bf8624ed2accea6cd23f3bb571df7d2e7920d1257f07cedc2aced29dd32a64",
     "build/python-patches/cookiejar-policy.patch": "22c7da666f08de081ef558c819c1d39531ab5cc8844fb21eca26c44b6301926f",
     "build/python-patches/python-http-framing-1-validation.patch": "7f5957ed856cd376b1116f8b740556c28ae61334714e46e631314a7e09e5cc47",
     "build/python-patches/python-http-framing-2-whitespace.patch": "68e1c264bcbe9b1838effa64e7cdc0ea21b4a7e33b3012a42c944d1daa35a3c2",
