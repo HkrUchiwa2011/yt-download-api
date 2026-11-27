@@ -1,6 +1,6 @@
 ARG EXPAT_VERSION=2.11.0
 
-FROM python:3.13-slim-trixie@sha256:e48f59cdba69a3cbd9ed2cf0f348d90d45a8d350d98134cf1070bc106ee9ed90 AS media-build
+FROM python:3.15-slim-trixie@sha256:63bb298d2b7b88f176f51b5189f54ce6535c997682ea70885d2132f5d473a8a5 AS media-build
 
 ARG FFMPEG_VERSION=9.1
 ARG FFMPEG_SHA256=1a4d394ae63d190a526cd052eb4415c156b5c5e2df37efab41a7de0b8fde2433
@@ -21,7 +21,7 @@ COPY build/build-pyexpat.sh /build-pyexpat.sh
 COPY build/python-patches /python-patches
 RUN sh /build-pyexpat.sh
 
-FROM python:3.13-slim-trixie@sha256:e48f59cdba69a3cbd9ed2cf0f348d90d45a8d350d98134cf1070bc106ee9ed90 AS dependencies
+FROM python:3.15-slim-trixie@sha256:63bb298d2b7b88f176f51b5189f54ce6535c997682ea70885d2132f5d473a8a5 AS dependencies
 
 ENV PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1 PIP_DISABLE_PIP_VERSION_CHECK=1 TMPDIR=/tmp/runtime DENO_DIR=/tmp/runtime/deno
 ARG ZLIB_VERSION=1:1.3.dfsg+really1.3.1-1+deb13u1
