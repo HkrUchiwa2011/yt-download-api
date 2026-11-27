@@ -6,12 +6,12 @@
 - Authenticate native-watch GitHub API requests with the temporary read-only job token; keep credentials off other source hosts and refuse redirects.
 - FastAPI 0.162.7 and a Python cookie-policy backport for CVE-2026-124249.
 - Python HTTP framing validation for CVE-2026-103995, preserving valid Content-Length whitespace.
-- FFmpeg AAC, AV1, Vorbis and VP9 security backports; unused FLAC components removed. Native patch additions/removals also require a refreshed security review.
+- Restricted FFmpeg 9.1 includes the previous native security backports. The local PSSH cap and exclusion of unused FLAC components remain in place. Expat 2.11.0 adds XML parser security fixes.
 - Redis-backed JSON job queue and supervised/separate workers; atomic global capacity and disk reservations.
 - Strict YouTube URLs, restricted signed DNS-pinned HTTPS webhooks and bounded request/metadata processing.
 - Exact UUID file lookup, private directories, symlink-safe streaming, repeat retrieval and TTL cleanup.
 - Separate polling/authentication budgets, constant-time API key checks and sanitized errors/logs.
-- Current locked yt-dlp/EJS/Deno dependencies; pinned Python image; restricted FFmpeg 9.0.2 with encryption/HDR fixes and Expat 2.10.0; non-root Docker services.
+- Current locked yt-dlp/EJS/Deno dependencies; pinned Python image; non-root Docker services.
 - Accurate Compose, Render and usage documentation; local regression and integration tests.
 
 ### Migration from 1.0

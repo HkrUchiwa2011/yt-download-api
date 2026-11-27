@@ -1,8 +1,8 @@
 {
-  "reviewed_on": "2026-11-18",
+  "reviewed_on": "2026-11-27",
   "versions": {
-    "ffmpeg": "9.0.2",
-    "expat": "2.10.0",
+    "ffmpeg": "9.1",
+    "expat": "2.11.0",
     "python": "3.13.18"
   },
   "packages": {
@@ -532,12 +532,21 @@
         "CVE-2026-120245",
         "CVE-2026-120246",
         "CVE-2026-120247",
+        "CVE-2026-125064",
+        "CVE-2026-125065",
+        "CVE-2026-125066",
+        "CVE-2026-125067",
         "CVE-2026-125068",
         "CVE-2026-125069",
         "CVE-2026-125070",
         "CVE-2026-125071",
         "CVE-2026-125072",
         "CVE-2026-125073",
+        "CVE-2026-125095",
+        "CVE-2026-125096",
+        "CVE-2026-125097",
+        "CVE-2026-125098",
+        "CVE-2026-125099",
         "CVE-2026-125100",
         "CVE-2026-125101",
         "CVE-2026-125102",
@@ -549,6 +558,32 @@
         "CVE-2026-125173",
         "CVE-2026-125174",
         "CVE-2026-125175",
+        "CVE-2026-125176",
+        "CVE-2026-125177",
+        "CVE-2026-125178",
+        "CVE-2026-125179",
+        "CVE-2026-125180",
+        "CVE-2026-125181",
+        "CVE-2026-125182",
+        "CVE-2026-125183",
+        "CVE-2026-125184",
+        "CVE-2026-125185",
+        "CVE-2026-125186",
+        "CVE-2026-125187",
+        "CVE-2026-125188",
+        "CVE-2026-125189",
+        "CVE-2026-125190",
+        "CVE-2026-125191",
+        "CVE-2026-125192",
+        "CVE-2026-125193",
+        "CVE-2026-125194",
+        "CVE-2026-125195",
+        "CVE-2026-125196",
+        "CVE-2026-125197",
+        "CVE-2026-125198",
+        "CVE-2026-125199",
+        "CVE-2026-125200",
+        "CVE-2026-125201",
         "CVE-2026-125202",
         "CVE-2026-125203",
         "CVE-2026-125204",
@@ -619,6 +654,51 @@
         "CVE-2026-125269",
         "CVE-2026-125270",
         "CVE-2026-12706",
+        "CVE-2026-133519",
+        "CVE-2026-135703",
+        "CVE-2026-135704",
+        "CVE-2026-135705",
+        "CVE-2026-135706",
+        "CVE-2026-135707",
+        "CVE-2026-135708",
+        "CVE-2026-135709",
+        "CVE-2026-135710",
+        "CVE-2026-135711",
+        "CVE-2026-135712",
+        "CVE-2026-135713",
+        "CVE-2026-135714",
+        "CVE-2026-135715",
+        "CVE-2026-135716",
+        "CVE-2026-135717",
+        "CVE-2026-135718",
+        "CVE-2026-135719",
+        "CVE-2026-135720",
+        "CVE-2026-135721",
+        "CVE-2026-135722",
+        "CVE-2026-135723",
+        "CVE-2026-135724",
+        "CVE-2026-135725",
+        "CVE-2026-135726",
+        "CVE-2026-135727",
+        "CVE-2026-135728",
+        "CVE-2026-135729",
+        "CVE-2026-135730",
+        "CVE-2026-135731",
+        "CVE-2026-135732",
+        "CVE-2026-135733",
+        "CVE-2026-135734",
+        "CVE-2026-135735",
+        "CVE-2026-135736",
+        "CVE-2026-135737",
+        "CVE-2026-135738",
+        "CVE-2026-135739",
+        "CVE-2026-135740",
+        "CVE-2026-135741",
+        "CVE-2026-135742",
+        "CVE-2026-135743",
+        "CVE-2026-135744",
+        "CVE-2026-135745",
+        "CVE-2026-137076",
         "CVE-2026-13858",
         "CVE-2026-18393",
         "CVE-2026-28731",
@@ -685,7 +765,7 @@
         },
         "CVE-2026-107676": {
           "description_sha256": "6808c2322bf8f61227a57ebfa01735a69f622296d52c7025658037860596299f",
-          "reason": "Backported HDR serialization fix"
+          "reason": "FFmpeg 9.1 includes the HDR serialization fix"
         },
         "CVE-2026-107677": {
           "description_sha256": "c14b13445f61182ba11e2d06c3d87de6479a6fa1e7978badafa95a69dcba7274",
@@ -693,7 +773,7 @@
         },
         "CVE-2026-107678": {
           "description_sha256": "53a68176bc7c341c898f552270500161f0ccede2bc18b99a13a04b66bbb00d36",
-          "reason": "Iterative free and bounded PSSH records"
+          "reason": "FFmpeg 9.1 releases lists iteratively and appends side data with amortized growth; retain a local limit on PSSH records"
         },
         "CVE-2026-107696": {
           "description_sha256": "615de4af6c578a772064f5d5c1c89292b781fb3294241c15eb87db90341ef10c",
@@ -723,6 +803,22 @@
           "description_sha256": "53e10b19b2c00c8dac8a02a812093e5f96d96b9737c4530e568765122a56cca2",
           "reason": "Affected FFmpeg protocol/demuxer/decoder omitted from the restricted build"
         },
+        "CVE-2026-125064": {
+          "description_sha256": "6e4a99af81d2a3dfc733b425fd919eba9603caed2057d097cbd278ebf27e49da",
+          "reason": "FFmpeg 9.1 is outside the published affected range (through 9.0.2)"
+        },
+        "CVE-2026-125065": {
+          "description_sha256": "084ec1e3aea203cb1776c5087e5d600e43523d5363fb414aaccab5dc4ba57caf",
+          "reason": "FFmpeg 9.1 is outside the published affected range (through 9.0.2)"
+        },
+        "CVE-2026-125066": {
+          "description_sha256": "3cf5daab7ad579495d8bba629ee4062d057d68b1233cb7aaec0d031df2b57257",
+          "reason": "FFmpeg 9.1 is outside the published affected range (through 9.0.2)"
+        },
+        "CVE-2026-125067": {
+          "description_sha256": "74d6230ea2292ce47baf17156b24557864da49bf4c418bb92c924d96421ebfae",
+          "reason": "FFmpeg 9.1 is outside the published affected range (through 9.0.2)"
+        },
         "CVE-2026-125068": {
           "description_sha256": "e3deb3366507febc98bab709f9fc88185f76ae77eb864db323322f0b00f54032",
           "reason": "Omitted: Bink video decoder"
@@ -746,6 +842,26 @@
         "CVE-2026-125073": {
           "description_sha256": "69cac807b7ca2284b67fa0bd4bb166310f3c1bec52a679d24160eaa0494da29b",
           "reason": "Omitted: IMC/IAC decoders"
+        },
+        "CVE-2026-125095": {
+          "description_sha256": "17cd66b077e817925d709e14518871fff77ab4615576c932f665afdfd12bd4c2",
+          "reason": "FFmpeg 9.1 is outside the published affected range (through 9.0.2)"
+        },
+        "CVE-2026-125096": {
+          "description_sha256": "f3db43444bbc867bef0b7147710928db144953b81277b91f9d63a8537e95dc35",
+          "reason": "FFmpeg 9.1 is outside the published affected range (through 9.0.2)"
+        },
+        "CVE-2026-125097": {
+          "description_sha256": "bda312a085ec4cbf09b5e49800e19baad125daa2bc90873ebad4c301ce3b754b",
+          "reason": "FFmpeg 9.1 is outside the published affected range (through 9.0.2)"
+        },
+        "CVE-2026-125098": {
+          "description_sha256": "d954207719ad0cdc4b57b38d25ac540044587100e64104b73ad00840bf838e3d",
+          "reason": "FFmpeg 9.1 is outside the published affected range (through 9.0.2)"
+        },
+        "CVE-2026-125099": {
+          "description_sha256": "78cafe714849e070af99ff973489662b5590a6eaff4d88956b5fef650bc37b8c",
+          "reason": "FFmpeg 9.1 is outside the published affected range (through 9.0.2)"
         },
         "CVE-2026-125100": {
           "description_sha256": "d27aef3d4aefe0494f89ca53498b276ad1d60808839f4ff085b535b372246d77",
@@ -791,6 +907,106 @@
           "description_sha256": "02db0af80c36ed02016bea845f489af6833cade0c708c6485615b2b04617dcf2",
           "reason": "Omitted: Flash Screen Video decoder"
         },
+        "CVE-2026-125176": {
+          "description_sha256": "790dbdc3263737d154f7d699a1893d4b27642cc929783dbd368824b24340e3a6",
+          "reason": "FFmpeg 9.1 is outside the published affected range (through 9.0.2)"
+        },
+        "CVE-2026-125177": {
+          "description_sha256": "139a3be59d79f44fffe369f6381b6da91ee74d9ba806eca4bce31260e1af06eb",
+          "reason": "FFmpeg 9.1 is outside the published affected range (through 9.0.2)"
+        },
+        "CVE-2026-125178": {
+          "description_sha256": "e9019aecbc5a434b88ded6933a20005db227f2a32bc518523213756641fd293c",
+          "reason": "FFmpeg 9.1 is outside the published affected range (through 9.0.2)"
+        },
+        "CVE-2026-125179": {
+          "description_sha256": "7c653cfa382f01c2207525983f3ca82fc3f3cabf0f2f7b727456a0411512824e",
+          "reason": "FFmpeg 9.1 is outside the published affected range (through 9.0.2)"
+        },
+        "CVE-2026-125180": {
+          "description_sha256": "2de0b2898bfba1a398603d341f79c3601f3ff90e5b94cc5a13a9f86f8f02ed31",
+          "reason": "FFmpeg 9.1 is outside the published affected range (through 9.0.2)"
+        },
+        "CVE-2026-125181": {
+          "description_sha256": "512ae5605d73b1b1281804b63525c798eee71cf76aec5d7a2c2857de82c9d2cb",
+          "reason": "FFmpeg 9.1 is outside the published affected range (through 9.0.2)"
+        },
+        "CVE-2026-125182": {
+          "description_sha256": "0bf4a5e89c4cf42557ce227e6e99d6518d6a0683d37503419ee9a93126822baa",
+          "reason": "FFmpeg 9.1 is outside the published affected range (through 9.0.2)"
+        },
+        "CVE-2026-125183": {
+          "description_sha256": "a48e8cae00c87575363dd621665f3091394b3a59afd1af7822b11fb6d58a195d",
+          "reason": "FFmpeg 9.1 is outside the published affected range (through 9.0.2)"
+        },
+        "CVE-2026-125184": {
+          "description_sha256": "72811ac9041601853c66dbb3ab4251245b6b786309727c0bd6331a55a9e9daf0",
+          "reason": "FFmpeg 9.1 is outside the published affected range (through 9.0.2)"
+        },
+        "CVE-2026-125185": {
+          "description_sha256": "92144b84d146c93e49334fa1461dfdfb76e699f786d96d8db36948eb93716500",
+          "reason": "FFmpeg 9.1 is outside the published affected range (through 9.0.2)"
+        },
+        "CVE-2026-125186": {
+          "description_sha256": "b551f939a609043bde9b316d7f12bd22df2a5551c5f899e50084091d94493430",
+          "reason": "FFmpeg 9.1 is outside the published affected range (through 9.0.2)"
+        },
+        "CVE-2026-125187": {
+          "description_sha256": "5f2db8217bde67ad18de341ccae542228f71e6c5883fe4fcc2d3024ec5ffcb9d",
+          "reason": "FFmpeg 9.1 is outside the published affected range (through 9.0.2)"
+        },
+        "CVE-2026-125188": {
+          "description_sha256": "17571ae61c6921a6ef89ae735c5c79e14d071602a54380f5ce8d05feeda1f58f",
+          "reason": "FFmpeg 9.1 is outside the published affected range (through 9.0.2)"
+        },
+        "CVE-2026-125189": {
+          "description_sha256": "3600e7bc3e92f59df76b6ae699cebf8303248da61469e5d2f4db36df6c7a917b",
+          "reason": "FFmpeg 9.1 is outside the published affected range (through 9.0.2)"
+        },
+        "CVE-2026-125190": {
+          "description_sha256": "4867eec8bf69f9805fa52434c8e2fd87f4e29ec5c0456bd173756aaf38868aa8",
+          "reason": "FFmpeg 9.1 is outside the published affected range (through 9.0.2)"
+        },
+        "CVE-2026-125191": {
+          "description_sha256": "261dc072bd623f76a9c5857a89b7894477253cc8325989c01a4b1c5e1a03626d",
+          "reason": "FFmpeg 9.1 is outside the published affected range (through 9.0.2)"
+        },
+        "CVE-2026-125192": {
+          "description_sha256": "d962fe1008350f06020ed46a9c77c8de6ba07fb71deccdc473dae39b9cb9587c",
+          "reason": "FFmpeg 9.1 is outside the published affected range (through 9.0.2)"
+        },
+        "CVE-2026-125193": {
+          "description_sha256": "57057b2a3d904b0deb44bdcdcf39b9a3af1d41ee23bfca0baff1a2b61e21be37",
+          "reason": "FFmpeg 9.1 is outside the published affected range (through 9.0.2)"
+        },
+        "CVE-2026-125194": {
+          "description_sha256": "36487f0c7d3bcc77d7b02d47b9898aecb1058b798c8a1fede01ed2de3458e5d2",
+          "reason": "FFmpeg 9.1 is outside the published affected range (through 9.0.2)"
+        },
+        "CVE-2026-125195": {
+          "description_sha256": "7048f3843d08f9fd0a28220ed58152c102fa89368ace122196dabb26ed81edaf",
+          "reason": "FFmpeg 9.1 is outside the published affected range (through 9.0.2)"
+        },
+        "CVE-2026-125196": {
+          "description_sha256": "74d16d3965916f8199fb0dcd6272c05b56259afbc2fdd42b9d44c452ad9c257d",
+          "reason": "FFmpeg 9.1 is outside the published affected range (through 9.0.2)"
+        },
+        "CVE-2026-125197": {
+          "description_sha256": "427a963c844d0272de557dce68aa784be32c9a9f4247939be51ee58ee00ddf83",
+          "reason": "FFmpeg 9.1 is outside the published affected range (through 9.0.2)"
+        },
+        "CVE-2026-125198": {
+          "description_sha256": "76df7285ed184f92f824c0d9f3fc991d1796a208dd6ff0abbaa8b4f88054aafe",
+          "reason": "FFmpeg 9.1 is outside the published affected range (through 9.0.2)"
+        },
+        "CVE-2026-125199": {
+          "description_sha256": "fd76de74ba484a998e192db5b370bce1fa24f045cc46f52ab8c8766b6c03dafc",
+          "reason": "FFmpeg 9.1 is outside the published affected range (through 9.0.2)"
+        },
+        "CVE-2026-125200": {
+          "description_sha256": "4d915e4318fa4e5e448fe87a7f3d58dbd95e2f7ff09de61f3148096bfff0b1f1",
+          "reason": "FFmpeg 9.1 is outside the published affected range (through 9.0.2)"
+        },
         "CVE-2026-125202": {
           "description_sha256": "6ddc826f7d5dfe38ceb7ed30395c7973dca92681b50b53e9e461a2fa40c613d7",
           "reason": "Omitted: VAAPI HEVC hardware acceleration"
@@ -801,7 +1017,7 @@
         },
         "CVE-2026-125205": {
           "description_sha256": "1228a8734e3aab310891c546e0b10f025699a1f6594c6123a9b23d33533a3bb7",
-          "reason": "Backported AV1 temporal-unit OBU limits (ffmpeg-av1-obu-limit.patch); raw OBU demuxers are omitted but the enabled BSF also receives container packets"
+          "reason": "FFmpeg 9.1 includes the AV1 temporal-unit OBU bounds"
         },
         "CVE-2026-125206": {
           "description_sha256": "2590ed339b1a9bfae670dafe7fe29a6ac9fdb3b1eed1af7195ccb947780fcde8",
@@ -873,15 +1089,15 @@
         },
         "CVE-2026-125223": {
           "description_sha256": "da8bb8ad37b8e03b5140ac30c33c99fa4159f20ebbcfa572e856671455e41737",
-          "reason": "Backported VP9 CBS-fragment cleanup on every affected decoder error path (ffmpeg-vp9-cleanup.patch)"
+          "reason": "FFmpeg 9.1 includes VP9 CBS-fragment cleanup on the affected error paths"
         },
         "CVE-2026-125224": {
           "description_sha256": "394ce8bf44b7393c724b17e55201447d42937b8e229bf166d5e1c8e54b6ca7de",
-          "reason": "Backported one-time Vorbis extradata parsing (ffmpeg-vorbis-once.patch)"
+          "reason": "FFmpeg 9.1 includes one-time Vorbis extradata parsing"
         },
         "CVE-2026-125225": {
           "description_sha256": "995f4b9dc4e7dec5cfcf462c809086e523fd7a7ad32790666e3fcce8706485a8",
-          "reason": "Backported checked AAC PCE bit-reader initialization (ffmpeg-aac-bitreader.patch)"
+          "reason": "FFmpeg 9.1 includes the AAC PCE bit-reader bounds fix"
         },
         "CVE-2026-125226": {
           "description_sha256": "1d313eb1566b8d0e849633795f3ebf51ced259e43ff6ecdede8a3f6ef0c5e6bb",
@@ -985,7 +1201,7 @@
         },
         "CVE-2026-125253": {
           "description_sha256": "b44d6f4536f9fc7954507a4ad861bbb15a896d5ea44ecc7f427cfbb3f1550d1b",
-          "reason": "Backported subtraction-based VP9 superframe bounds (ffmpeg-vp9-size.patch); applies defensively to 32-bit builds, local execution is amd64"
+          "reason": "FFmpeg 9.1 includes subtraction-based VP9 superframe bounds"
         },
         "CVE-2026-125254": {
           "description_sha256": "e992960ea3dd3bfb2bf4f63f849d21a6b6e998d53bd15610c3ede3fbc885b2c9",
@@ -1050,6 +1266,186 @@
         "CVE-2026-125270": {
           "description_sha256": "9a448318ca9dfc9a4a2fedd7ee9f78838652c3708b6bfd86a851bb686119a35d",
           "reason": "Omitted: V4L2 M2M encoders"
+        },
+        "CVE-2026-133519": {
+          "description_sha256": "efd9cafc913ee5c42c60ec963b1ae5a5079a57ec817404aab796ed34ff9b5a82",
+          "reason": "DVD video demuxer is disabled; the advisory also excludes FFmpeg 9.1"
+        },
+        "CVE-2026-135703": {
+          "description_sha256": "d8e5f33780baef4cf09b528195d6be965f4cbbfbf7ef2fc6dbc17a90f8fc3fe6",
+          "reason": "FFmpeg 9.1 is outside the published affected range (before 9.1)"
+        },
+        "CVE-2026-135704": {
+          "description_sha256": "89e436b1ca9278aa6ca797077fc4a58ebdad26d8f81414e20cc092a487414b10",
+          "reason": "FFmpeg 9.1 is outside the published affected range (before 9.1)"
+        },
+        "CVE-2026-135705": {
+          "description_sha256": "da2d7b70d0c5dda6667c519dc657fed6ef1ebb7d1261da017f8386080228bada",
+          "reason": "FFmpeg 9.1 is outside the published affected range (before 9.1)"
+        },
+        "CVE-2026-135706": {
+          "description_sha256": "04b7460dca42f6e5fbe000e362fa6754e41477b560967b955e0124eba9748b09",
+          "reason": "FFmpeg 9.1 is outside the published affected range (before 9.1)"
+        },
+        "CVE-2026-135707": {
+          "description_sha256": "89fc1af2307ac2efe3b9d5adf3cdc64df42644efc77748fc2a672982f09ae1d8",
+          "reason": "FFmpeg 9.1 is outside the published affected range (before 9.1)"
+        },
+        "CVE-2026-135708": {
+          "description_sha256": "d9543f3c241b5029df0f595d80f067bca267277c7e1f48d256c6f96053aeeb29",
+          "reason": "FFmpeg 9.1 is outside the published affected range (before 9.1)"
+        },
+        "CVE-2026-135709": {
+          "description_sha256": "e1029e8a7a9e33941622c107bb62e91e12f3c7402aa88ceffd7184366eca891f",
+          "reason": "FFmpeg 9.1 is outside the published affected range (before 9.1)"
+        },
+        "CVE-2026-135710": {
+          "description_sha256": "69505ed23571a95085d4c3b45c4c40b8d55ef62b8249b9bb80558d0db786e012",
+          "reason": "FFmpeg 9.1 is outside the published affected range (before 9.1)"
+        },
+        "CVE-2026-135711": {
+          "description_sha256": "ee32c02e3b1eef026fd3505f519389beda80482ad486b9a4c270b5c9f24ba982",
+          "reason": "FFmpeg 9.1 is outside the published affected range (before 9.1)"
+        },
+        "CVE-2026-135712": {
+          "description_sha256": "2eb32fbfdaad93532626af4cff069fadfc0c6f357b1bc9eed1e34ed2393aebdb",
+          "reason": "FFmpeg 9.1 is outside the published affected range (before 9.1)"
+        },
+        "CVE-2026-135713": {
+          "description_sha256": "6d1e309a1d80541d4883c5e5634e69e5e0cfe60696ebd6011c754ee8d8f0f25a",
+          "reason": "FFmpeg 9.1 is outside the published affected range (before 9.1)"
+        },
+        "CVE-2026-135714": {
+          "description_sha256": "d0f8aeff449e08c4e8c6d705aa58d3ddc1e9ffafce7f8a771dca060d500d7249",
+          "reason": "FFmpeg 9.1 is outside the published affected range (before 9.1)"
+        },
+        "CVE-2026-135715": {
+          "description_sha256": "123d4697a6f3580d15f0062f3707fe015837b3f544bae5c37fd766ee659d2815",
+          "reason": "FFmpeg 9.1 is outside the published affected range (before 9.1)"
+        },
+        "CVE-2026-135716": {
+          "description_sha256": "5558b5ef0e5dd183e25772b06371fecef818a31bb2bf5ed51372adb2c171e782",
+          "reason": "FFmpeg 9.1 is outside the published affected range (before 9.1)"
+        },
+        "CVE-2026-135717": {
+          "description_sha256": "a13cec050c2589d3d126f45bf52d661daead19342e44ea381741cc994a9174f2",
+          "reason": "FFmpeg 9.1 is outside the published affected range (before 9.1)"
+        },
+        "CVE-2026-135718": {
+          "description_sha256": "b0e5862b485e7939094d0d1e2226e4210701ecf22d6884e46ebc9925ce998a3e",
+          "reason": "FFmpeg 9.1 is outside the published affected range (before 9.1)"
+        },
+        "CVE-2026-135719": {
+          "description_sha256": "da006fc844f4b12aa782c0c46470e8cbc99bbebb796638f28aec050ce14052ed",
+          "reason": "FFmpeg 9.1 is outside the published affected range (before 9.1)"
+        },
+        "CVE-2026-135720": {
+          "description_sha256": "62a37327abf49a3fd4f5e96d1a82aad9c43df037913b6b5438f83943c888aa90",
+          "reason": "FFmpeg 9.1 is outside the published affected range (before 9.1)"
+        },
+        "CVE-2026-135721": {
+          "description_sha256": "40d52c8256bc0d481d586b1f754661049410aeaa68c25f3100bde9e345ba7094",
+          "reason": "FFmpeg 9.1 is outside the published affected range (before 9.1)"
+        },
+        "CVE-2026-135722": {
+          "description_sha256": "26bcc2a7ec1b6e1282be3854cecbf71d7085123ea03dfa611c402ac1efe4313a",
+          "reason": "FFmpeg 9.1 is outside the published affected range (before 9.1)"
+        },
+        "CVE-2026-135723": {
+          "description_sha256": "2ae156e6a82f4ff280c5f887167d645cdb6324e194c2c6d5045773a2fa69151f",
+          "reason": "FFmpeg 9.1 is outside the published affected range (before 9.1)"
+        },
+        "CVE-2026-135724": {
+          "description_sha256": "c0c589c58d0f497697c600fc298c23d28d2fbf4fa0fa04c9b1db0abe1a8c7a35",
+          "reason": "FFmpeg 9.1 is outside the published affected range (before 9.1)"
+        },
+        "CVE-2026-135725": {
+          "description_sha256": "064bfc9126697728fb934ade65cf711cd41344b8ba4de6bd7f43cba19a341fdd",
+          "reason": "FFmpeg 9.1 is outside the published affected range (before 9.1)"
+        },
+        "CVE-2026-135726": {
+          "description_sha256": "77d2790d1f1aad445e6b75c020feb8b586eb0802655d7b28e77e79c30506a22a",
+          "reason": "FFmpeg 9.1 is outside the published affected range (before 9.1)"
+        },
+        "CVE-2026-135727": {
+          "description_sha256": "57c6d763dcbbce9b930c36e6a2d1473d84b17801df88cd1f1d4017a3bbb4a670",
+          "reason": "FFmpeg 9.1 is outside the published affected range (before 9.1)"
+        },
+        "CVE-2026-135728": {
+          "description_sha256": "4afc11e339c6c62ddebdd8f33cdc372eda87f9f26c64eea7cbf090245bbb5672",
+          "reason": "FFmpeg 9.1 is outside the published affected range (before 9.1)"
+        },
+        "CVE-2026-135729": {
+          "description_sha256": "467580ae9e480a5d4e217b6a33c0b1087070e5a52fce6537c996c4d714b91520",
+          "reason": "FFmpeg 9.1 is outside the published affected range (before 9.1)"
+        },
+        "CVE-2026-135730": {
+          "description_sha256": "28124e4137cf7ad4e57f455ce783309dce1cb4bdc086e6cb4ca6323adcbcc516",
+          "reason": "FFmpeg 9.1 is outside the published affected range (before 9.1)"
+        },
+        "CVE-2026-135731": {
+          "description_sha256": "0e06f6ef76c0aa2d075ca4bb6da337676c7a66b999bbd4cceee1298e2e92fcb7",
+          "reason": "FFmpeg 9.1 is outside the published affected range (before 9.1)"
+        },
+        "CVE-2026-135732": {
+          "description_sha256": "495d5605717f9f6bf5a05624376c2341aecde2a7692b68365151f063d9b691c0",
+          "reason": "FFmpeg 9.1 is outside the published affected range (before 9.1)"
+        },
+        "CVE-2026-135733": {
+          "description_sha256": "5c693a910aea496faf31a80a7ce5b362793bd74ebd4f2f1bb68b0ac5b2f20c61",
+          "reason": "The build excludes both zmq and azmq filters and disables networking"
+        },
+        "CVE-2026-135734": {
+          "description_sha256": "7fcc209b1029690df64ff3b5fafe424bd3350a5380d597f9bf6b883a4d120b53",
+          "reason": "FFmpeg 9.1 is outside the published affected range (before 9.1)"
+        },
+        "CVE-2026-135735": {
+          "description_sha256": "3d2bd3abeb26faad223723fb58df315b31a4ba0803021b5a6b7428c014b785d5",
+          "reason": "FFmpeg 9.1 is outside the published affected range (before 9.1)"
+        },
+        "CVE-2026-135736": {
+          "description_sha256": "8219a1fd83a5f5f899426202545595f5d143e891c7ab5ad9f76227a2d004e67c",
+          "reason": "FFmpeg 9.1 is outside the published affected range (before 9.1)"
+        },
+        "CVE-2026-135737": {
+          "description_sha256": "27659787dc39670119187f4a035d3c1da1f398be63e1bf4dd1cda82495e4b1b8",
+          "reason": "FFmpeg 9.1 is outside the published affected range (before 9.1)"
+        },
+        "CVE-2026-135738": {
+          "description_sha256": "6668a5e5f4934fdd0daa054d587dd3729566d1a0e231eb3ac72ad4553a5b7cd4",
+          "reason": "FFmpeg 9.1 is outside the published affected range (before 9.1)"
+        },
+        "CVE-2026-135739": {
+          "description_sha256": "9a6a68373a29fac4f261b1c29764be422f03c7d0e6144a9d8916dac1da2865fc",
+          "reason": "FFmpeg 9.1 is outside the published affected range (before 9.1)"
+        },
+        "CVE-2026-135740": {
+          "description_sha256": "349efd5d27ecdc8d0054b13c5a5bbdd26cccf0bce5d04530dbb621b828fcf264",
+          "reason": "FFmpeg 9.1 is outside the published affected range (before 9.1)"
+        },
+        "CVE-2026-135741": {
+          "description_sha256": "4fe0513805812491c4f53fac9c82734e1cd2f5d4fb78a1210918492eb8d5e949",
+          "reason": "FFmpeg 9.1 is outside the published affected range (before 9.1)"
+        },
+        "CVE-2026-135742": {
+          "description_sha256": "aa40bd5a1e3aafc28887389e4f013cc9770b9f240ae5e8939b0be8c23915fc3b",
+          "reason": "FFmpeg 9.1 is outside the published affected range (before 9.1)"
+        },
+        "CVE-2026-135743": {
+          "description_sha256": "4b2cc631ebe1e310c8205a2d8aaf3ca4a5c657b67ab91491ac14212df106fe73",
+          "reason": "FFmpeg 9.1 is outside the published affected range (before 9.1)"
+        },
+        "CVE-2026-135744": {
+          "description_sha256": "9ec06e4e9b5b1ee55a72bec9b0f5544e66ec6e7ebb1324a9f16172ba18e4c2e0",
+          "reason": "FFmpeg 9.1 is outside the published affected range (before 9.1)"
+        },
+        "CVE-2026-135745": {
+          "description_sha256": "2a72618582cdb12700ca612a163a94567cb4c4326d652b8a40d1cb334f925c27",
+          "reason": "FFmpeg 9.1 is outside the published affected range (before 9.1)"
+        },
+        "CVE-2026-137076": {
+          "description_sha256": "44e072a31b62a264e9bdd53fc615a14e355438871fe667cc1e27008892f19396",
+          "reason": "The API uses a fresh FFmpeg process per invocation and never reuses decoder contexts between jobs"
         }
       }
     },
@@ -1105,6 +1501,7 @@
         "CVE-2026-118370",
         "CVE-2026-124317",
         "CVE-2026-128241",
+        "CVE-2026-134703",
         "CVE-2026-24515",
         "CVE-2026-25210",
         "CVE-2026-32776",
@@ -1137,14 +1534,6 @@
         "CVE-2025-66382": {
           "description_sha256": "9201590e212cb78dcacf732ec7be76778bb7430b6340f93b11fd30697cf327a6",
           "reason": "Upstream open; bounded XML child processes, not certified fixed"
-        },
-        "CVE-2026-124317": {
-          "description_sha256": "7071b8f4cf6db960f8326d615f87e639bba5e0195120214f9ccad276a6432d29",
-          "reason": "pyexpat unknown-encoding handler supports single-byte maps, not the multibyte convert callback"
-        },
-        "CVE-2026-128241": {
-          "description_sha256": "43f11dfc966bc536c7774b6bddb464e11299722b1716e1718fec3290da91bdb7",
-          "reason": "xmlwf is not built or installed"
         }
       }
     },
@@ -1187,6 +1576,7 @@
         "CVE-2026-0864",
         "CVE-2026-0865",
         "CVE-2026-103995",
+        "CVE-2026-107784",
         "CVE-2026-114583",
         "CVE-2026-115557",
         "CVE-2026-115559",
@@ -1230,57 +1620,8 @@
         "CVE-2026-87910",
         "CVE-2026-9669"
       ],
-      "open": {
-        "CVE-2025-12781": {
-          "description_sha256": "b77e4584d866f7d025aa70e5fa8c7d794c7d35bfb761185398742f14b704b39c",
-          "reason": "No authentication/authorization decision based on accepting an alternate base64 alphabet"
-        },
-        "CVE-2025-15366": {
-          "description_sha256": "7fc05d2babd8dd6be2fb4bc1b2d2b6fffec9dc1db6a37db8cd1dd26dbd41d325",
-          "reason": "No IMAP client"
-        },
-        "CVE-2025-15367": {
-          "description_sha256": "8b6435f4fb252ff5c80ba17bfc06165c801cfa0229e16d6a6570addaa0cc88cc",
-          "reason": "No POP client"
-        },
-        "CVE-2026-115791": {
-          "description_sha256": "e85dee90a9ec03aeb521ca8ca99eff0b2b89f25242840f4e98ae7893bea8450a",
-          "reason": "Archive extraction CLI is not used by API routes"
-        },
-        "CVE-2026-116566": {
-          "description_sha256": "3c2847663594ad3eb93716b354d4e607acfaa975d3050cd6bb5be3972b30c32f",
-          "reason": "Accepted YouTube/webhook URLs reject control characters including NUL"
-        },
-        "CVE-2026-12003": {
-          "description_sha256": "535a251adc6dc81ffb5c1dbb9277cfcaec157c750db80ce3a8b9fcec180c868a",
-          "reason": "Windows installer and source-tree detection path not used in the Linux image"
-        },
-        "CVE-2026-124249": {
-          "description_sha256": "7d80abec81f52b948f53c99d43e2693e3d75b324c9a75c28d99ecafe617ff249",
-          "reason": "Backported cookie expiration policy fix; domain/path/blocklist regressions"
-        },
-        "CVE-2026-19552": {
-          "description_sha256": "f9cef894156939f6077917adcb481e6a5d8bfbaa5f64aecc69b72378044f559a",
-          "reason": "ssl.get_server_certificate is not used; HTTP clients verify TLS hostname normally"
-        },
-        "CVE-2026-3479": {
-          "description_sha256": "6cd82a1f1e9f74191edb83639b12a9985190b53edeae6d78ea1379edced6a5ac",
-          "reason": "Disputed/documentation issue; no user-controlled pkgutil resource path"
-        },
-        "CVE-2026-103995": {
-          "description_sha256": "349dd855b416d8effac349acb3990c1cdccc53f7f81b15829b2fd65574ef4d79",
-          "reason": "Backported strict HTTP framing grammar plus optional Content-Length whitespace compatibility (python-http-framing-*.patch)"
-        },
-        "CVE-2026-115559": {
-          "description_sha256": "cffe9a9cee9ff537e4595f64841a31f35c611f2e1da94d1e083c2721b1645c48",
-          "reason": "IMAP STARTTLS is not used by API routes, workers or configured yt-dlp extractors"
-        },
-        "CVE-2026-16052": {
-          "description_sha256": "b88f279a4ad7431e4a53269451278dc28f362fcc9ccc735d197c16273415a324",
-          "reason": "No response-cookie creation or user-controlled Morsel attribute values; cookies are consumed by yt-dlp, not emitted from API input"
-        }
-      }
+      "open": {}
     }
   },
-  "expat_pending_issue_sha256": "e1444f7cee106d383e29fa3a97ea1b95a82d6931d3727a9f7c33723e9ace8621"
+  "expat_pending_issue_sha256": "048506b6eb52f75339d9ae0c4bea5440866449acef812bdf645db0e513bcd6e2"
 }

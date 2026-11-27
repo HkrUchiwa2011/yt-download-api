@@ -1,7 +1,9 @@
+ARG EXPAT_VERSION=2.11.0
+
 FROM python:3.13-slim-trixie@sha256:e48f59cdba69a3cbd9ed2cf0f348d90d45a8d350d98134cf1070bc106ee9ed90 AS media-build
 
-ARG FFMPEG_VERSION=9.0.2
-ARG FFMPEG_SHA256=8c3850283eb25fa026482078a04051e0be17347b09ef81a0849bec15a96e002e
+ARG FFMPEG_VERSION=9.1
+ARG FFMPEG_SHA256=1a4d394ae63d190a526cd052eb4415c156b5c5e2df37efab41a7de0b8fde2433
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential curl xz-utils nasm patch libmp3lame-dev zlib1g-dev ca-certificates \
     && rm -rf /var/lib/apt/lists/*
@@ -11,8 +13,8 @@ COPY build/test-native.c /test-native.c
 RUN sh /build-ffmpeg.sh
 
 FROM media-build AS xml-build
-ARG EXPAT_VERSION=2.10.0
-ARG EXPAT_SHA256=c624ba2998fc65df1163a49641ff3f9ab73138b11641d92c86bee0fb01b1bc7f
+ARG EXPAT_VERSION
+ARG EXPAT_SHA256=61e7614b602201c28a189dafee78f5bceaee192bbde46a930752ff09cf5542fa
 ARG PYTHON_VERSION=3.13.18
 ARG PYTHON_SHA256=abb0102e6d4ae027509bcb82327d9dd85515b44a3ba8ad538cfc5e9847029f68
 COPY build/build-pyexpat.sh /build-pyexpat.sh
@@ -32,7 +34,8 @@ COPY --from=xml-build /opt/expat /opt/expat
 COPY --from=xml-build /native/ /usr/local/lib/python3.13/lib-dynload/
 COPY --from=xml-build /native-stdlib/ /usr/local/lib/python3.13/
 ENV PATH=/opt/ffmpeg/bin:$PATH
-RUN python -c "import pyexpat, xml.etree.ElementTree as E; assert pyexpat.EXPAT_VERSION == 'expat_2.10.0'; assert E.fromstring('<check/>').tag == 'check'"
+ARG EXPAT_VERSION
+RUN test -n "$EXPAT_VERSION" && python -c "import pyexpat, xml.etree.ElementTree as E; assert pyexpat.EXPAT_VERSION == 'expat_${EXPAT_VERSION}'; assert E.fromstring('<check/>').tag == 'check'"
 WORKDIR /app
 COPY requirements.txt ./
 RUN pip install --no-cache-dir --require-hashes -r requirements.txt

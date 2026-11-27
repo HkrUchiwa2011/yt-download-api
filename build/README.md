@@ -8,9 +8,9 @@ The build uses separate compiler stages. Compilers, fixture-generation FFmpeg
 and test binaries are absent from the final runtime. Source downloads require
 the SHA-256 digests pinned in `Dockerfile`.
 
-## FFmpeg 9.0.2-yt2
+## FFmpeg 9.1-yt1
 
-The official 9.0.2 release archive was verified with the release signature and
+The official 9.1 release archive was verified with the release signature and
 the signing key published at https://ffmpeg.org/ffmpeg-devel.asc. Fingerprint:
 `FCF986EA15E6E293A5644F10B4322F04D67658D8`.
 
@@ -23,18 +23,10 @@ native HLS downloader. FLAC decoding, parsing and demuxing are excluded: they
 are unnecessary for YouTube streams and expose CVE-2026-125221's recursive
 parser. This is not a general-purpose FFmpeg installation.
 
-The release also needs the following targeted patches:
-
-| Patch | Reason and provenance |
-|---|---|
-| `ffmpeg-encryption-free.patch` | CVE-2026-107678: iterative release of encryption-init records. First patch from https://code.ffmpeg.org/FFmpeg/FFmpeg/pulls/24593; the full proposal is not merged into the release. |
-| `ffmpeg-pssh-limit.patch` | Local hardening for the same advisory: reject more than 64 PSSH records per MOV input to bound the existing quadratic append path. Avoids introducing the proposal's new unreleased API. |
-| `ffmpeg-hdr.patch` | CVE-2026-107676: preserve unconditional saturation fields and avoid unwritten output bytes. https://code.ffmpeg.org/FFmpeg/FFmpeg/commit/2c2f6e96e31795ae95a8f8323a493ffbc493111f |
-| `ffmpeg-aac-bitreader.patch` | CVE-2026-125225: reject oversized AAC PCE packets before reading bits. https://code.ffmpeg.org/FFmpeg/FFmpeg/commit/3b1cbb5e0f66b85d15f1d3527436520b3f4711ec |
-| `ffmpeg-av1-obu-limit.patch` | CVE-2026-125205: limit temporal units to 65,536 OBUs, including accumulation across packets. https://code.ffmpeg.org/FFmpeg/FFmpeg/commit/c90bbc2036bac67e95777638bdc86157a775858a |
-| `ffmpeg-vorbis-once.patch` | CVE-2026-125224: parse invalid Vorbis extradata only once. The release already has the `extradata_parsed` field. https://code.ffmpeg.org/FFmpeg/FFmpeg/commit/90f5e61a1da2dcc0050169af8ca593530f26071b |
-| `ffmpeg-vp9-cleanup.patch` | CVE-2026-125223: reset the CBS fragment on affected VP9 decoder error paths. https://code.ffmpeg.org/FFmpeg/FFmpeg/commit/bcce3232016695f5e482867519c45727a0a2a2c9 |
-| `ffmpeg-vp9-size.patch` | CVE-2026-125253: avoid superframe-size addition overflow on 32-bit builds. https://code.ffmpeg.org/FFmpeg/FFmpeg/commit/6280907da48c4dd78f95ef5c713a29c7702153a3 |
+FFmpeg 9.1 incorporates the previous encryption-list, HDR, AAC, AV1,
+Vorbis and VP9 backports. The upstream MOV demuxer now appends encryption
+side data with amortized growth. The sole local patch keeps the existing
+limit of 64 PSSH records per MOV input to bound DRM metadata processing.
 
 Patches apply with zero fuzz; a changed upstream layout fails the build instead
 of silently omitting fixes. `test-native.c` checks a 100,000-node list on a
@@ -45,7 +37,7 @@ OBUs in one packet and across packets, checks cleanup after rejected AV1 input,
 counts a single parse of corrupt Vorbis extradata, and confirms FLAC is absent.
 Media fixtures cover VP9/Opus and AV1/AAC stream merging and Vorbis-to-MP3
 conversion. Local execution is on amd64; the 32-bit VP9 arithmetic fix is
-backported and reviewed but has not been executed on a 32-bit target.
+present in upstream 9.1 and has not been executed on a 32-bit target.
 
 FFmpeg libraries are shared and include development headers. LGPL license
 files, source URL/digest, applied patches and configuration are installed in
@@ -55,14 +47,15 @@ Application code remains MIT; these components retain their own licenses.
 When distributing binaries, provide corresponding sources and patches as
 required by those licenses.
 
-## Expat 2.10.0 and CPython 3.13.18
+## Expat 2.11.0 and CPython 3.13.18
 
 The Python base image embeds Expat 2.9.0 in `pyexpat`; package-only scans do
 not inventory it. Version 2.10.0 fixes CVE-2026-113351, CVE-2026-115506,
-CVE-2026-117610 and CVE-2026-118370 (see the upstream release's `Changes`).
+CVE-2026-117610 and CVE-2026-118370. Expat 2.11.0 also includes fixes for
+CVE-2026-124317, CVE-2026-128241 and CVE-2026-134703 (see its [release notes](https://github.com/libexpat/libexpat/releases/tag/R_2_11_0)).
 
 `build-pyexpat.sh` rebuilds the matching CPython extension against a shared
-Expat 2.10.0 library. `_elementtree` uses that same parser via the C API.
+Expat 2.11.0 library. `_elementtree` uses that same parser via the C API.
 The build verifies the base Python version, source digests, loaded parser
 version and an ElementTree parse. Sources and licenses are recorded in
 `/opt/expat/share`. Changing the Python base version requires updating the
