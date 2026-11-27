@@ -26,8 +26,9 @@ FROM python:3.13-slim-trixie@sha256:e48f59cdba69a3cbd9ed2cf0f348d90d45a8d350d981
 ENV PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1 PIP_DISABLE_PIP_VERSION_CHECK=1 TMPDIR=/tmp/runtime DENO_DIR=/tmp/runtime/deno
 ARG ZLIB_VERSION=1:1.3.dfsg+really1.3.1-1+deb13u1
 ARG LAME_VERSION=3.100-6+b3
+ARG ZSTD_VERSION=1.5.7+dfsg-1+deb13u1
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    libmp3lame0=${LAME_VERSION} zlib1g=${ZLIB_VERSION} ca-certificates tini \
+    libmp3lame0=${LAME_VERSION} zlib1g=${ZLIB_VERSION} libzstd1=${ZSTD_VERSION} ca-certificates tini \
     && rm -rf /var/lib/apt/lists/*
 COPY --from=media-build /opt/ffmpeg /opt/ffmpeg
 COPY --from=xml-build /opt/expat /opt/expat

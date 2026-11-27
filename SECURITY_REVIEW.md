@@ -2,6 +2,7 @@
 
 ## Follow-up — 2026-11-27
 
+- The runtime installs Debian's patched libzstd1 for CVE-2026-124851 and retains the patched zlib1g for CVE-2026-85091.
 - FFmpeg 9.1 incorporates the earlier encryption-list, HDR, AAC, AV1, Vorbis and VP9 backports and covers new advisories in enabled HEVC paths. The restricted build and per-file PSSH limit are preserved.
 - Expat 2.11.0 fixes CVE-2026-124317, CVE-2026-128241 and CVE-2026-134703. The same CPython interpreter and HTTP backports remain in use.
 - Trivy reports CVE-2026-107494 and CVE-2026-124709 for three Debian OpenSSL packages. Both require OpenSSL's QUIC stack. The supplied API serves HTTP/1.1 over TCP and its clients do not use OpenSSL QUIC. Both findings remain visible in the full scan. An external HTTP/3 reverse proxy has a separate security scope.
